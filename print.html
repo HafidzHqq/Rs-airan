@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cetak</title>
+  <link rel="stylesheet" href="print.css">
+</head>
+<body>
+  <div class="container">
+    <div class="text-h1 text-bold">Laboratorium RSU Medika</div>
+    <div class="text-bold">Jalan Kenangan No.1, Bandar Lampung</div>
+    <div>No. Izin : 1425/DINKES-LPG/V/2021</div>
+    <div>No telp. (0725)864211 | email : Laboratoriummedika_rsulampung@gmail.com</div>
+  </div>
+  <hr>
+  <div class="container">
+    <div class="text-bold"><u>Hasil Pemeriksaan Laboratorium</u></div>
+
+    <!-- Identitas pasien -->
+    <table class="table-identitas" id="tableIdentitas"></table>
+
+    <!-- Tabel hasil lab -->
+    <table id="tableHasil"></table>
+
+    <!-- Penanggung jawab -->
+    <div id="penanggungJawab"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const pasienId = parseInt(urlParams.get("id"));
+    const pasienList = JSON.parse(localStorage.getItem("pasienList")) || [];
+    const pasien = pasienList.find(p => p.id === pasienId);
+
+    if (pasien) {
+      // identitas pasien
+      document.getElementById("tableIdentitas").innerHTML = `
+        <tbody>
+          <tr><th>Nama</th><td>: ${pasien.nama}</td></tr>
+          <tr><th>Umur</th><td>: ${pasien.umur || "-"}</td></tr>
+          <tr><th>Jenis Kelamin</th><td>: ${pasien.jekel === "L" ? "Laki-laki" : "Perempuan"}</td></tr>
+          <tr><th>Tanggal Periksa</th><td>: ${pasien.tanggal || "-"}</td></tr>
+          <tr><th>Alamat</th><td>: ${pasien.alamat || "-"}</td></tr>
+          <tr><th>Diagnosa</th><td>: ${pasien.diagnosa || "-"}</td></tr>
+          <tr><th>Dokter Pengirim</th><td>: ${pasien.dokter_pengirim || "-"}</td></tr>
+        </tbody>
+      `;
+
+      // tabel hasil lab
+      document.getElementById("tableHasil").innerHTML = `
+        <tbody>
+          <tr><th>Nama</th><th>Hasil</th><th>Satuan</th><th>Nilai Normal</th></tr>
+          <tr><td>Hemoglobin</td><td>${pasien.hemogoblin || "-"}</td><td>g/dl</td><td>L : 12,6-17,4 ; P : 11,7-16,1</td></tr>
+          <tr><td>Hematokrit</td><td>${pasien.hematokrit || "-"}</td><td>%</td><td>L : 36-52 ; P : 34-64</td></tr>
+          <tr><td>Leukosit</td><td>${pasien.leukosit || "-"}</td><td>/µL</td><td>4.500-10.500</td></tr>
+          <tr><td>Eritrosit</td><td>${pasien.eritrosit || "-"}</td><td>/µL</td><td>L : 4,7-6,1 jt ; P : 4,2-5,4 jt</td></tr>
+          <tr><td>Trombosit</td><td>${pasien.trombosit || "-"}</td><td>/µL</td><td>150.000-450.000</td></tr>
+          <tr><td>MCV</td><td>${pasien.mcv || "-"}</td><td>fL</td><td>80-96</td></tr>
+        </tbody>
+      `;
+
+      // penanggung jawab
+      document.getElementById("penanggungJawab").innerHTML = `
+        <div><u>Penanggung Jawab</u></div>
+        <br><br><br>
+        <div><u>${pasien.penanggung_jawab || "-"}</u></div>
+        <div>NIP. 11010001156432</div>
+      `;
+
+      window.print();
+    } else {
+      document.body.innerHTML = "<h2>Data pasien tidak ditemukan!</h2>";
+    }
+  </script>
+</body>
+</html>

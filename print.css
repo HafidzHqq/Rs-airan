@@ -1,0 +1,64 @@
+body {
+  font-family: "Times New Roman", Times, serif;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  font-size: 18px;
+  margin: 25px;
+  width: 100%;
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-h1 {
+  font-size: 26px;
+}
+
+hr {
+  border: 1px solid #000;
+  margin: 20px 0;
+}
+
+/* tabel identitas pasien tanpa garis */
+.table-identitas {
+  border-collapse: collapse;
+  margin: 20px auto;
+  width: auto;
+  font-size: 18px;
+}
+
+.table-identitas th,
+.table-identitas td {
+  padding: 6px 15px;
+  text-align: left;
+  border: none;       /* hilangkan garis */
+  background: none;   /* transparan */
+}
+
+/* tabel hasil lab dengan border */
+#tableHasil {
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-size: 18px;
+  width: 90%;
+}
+
+#tableHasil th,
+#tableHasil td {
+  border: 1px solid #000;
+  padding: 8px 15px;
+  text-align: left;
+}
+
+#penanggungJawab {
+  text-align: right;
+  margin-top: 60px;
+  margin-right: 60px;
+  font-size: 18px;
+}
