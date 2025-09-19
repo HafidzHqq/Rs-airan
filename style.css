@@ -1,27 +1,24 @@
-/* style.css */
 
-/* --- Gaya Global & Tipografi --- */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f7f6; /* Warna latar belakang sedikit abu-abu */
-  color: #333; /* Warna teks utama */
+  background-color: #f4f7f6; 
+  color: #333; 
   line-height: 1.6;
 }
 
-/* --- Container Utama --- */
-/* Menggunakan kelas .container agar bisa dipakai berulang kali */
+
 .container {
   max-width: 960px;
-  margin: 20px auto; /* Memberi jarak atas/bawah dan otomatis di tengah */
+  margin: 20px auto; 
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Efek bayangan halus */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
 }
 
-/* --- Header & Judul Utama --- */
+
 .header {
   text-align: center;
   padding: 20px;
@@ -29,20 +26,20 @@ body {
 }
 
 .header h1 {
-  color: #005A9C; /* Biru korporat yang menenangkan */
+  color: #005A9C; 
   font-size: 2.5em;
   margin: 0;
 }
 
-/* --- Bilah Navigasi --- */
+
 .navigation-bar {
-  background-color: #005A9C; /* Warna biru utama */
+  background-color: #005A9C; 
   padding: 15px 0;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: sticky;   /* sticky */
-  top: 0;             /* nempel di atas */
-  margin: 0;          /* tanpa jarak */
+  position: sticky;  
+  top: 0;            
+  margin: 0;          
   z-index: 1000;      
 }
 
@@ -65,16 +62,15 @@ body {
   font-size: 1.1em;
   padding: 10px 15px;
   border-radius: 10px;
-  transition: background-color 0.3s ease; /* Transisi halus saat hover */
+  transition: background-color 0.3s ease; 
 }
 
 .navigation-bar ul li a:hover {
-  background-color: #ffffff; /* Warna biru lebih gelap */
-    color: #005A9C; /* Teks berubah warna saat hover */
+  background-color: #ffffff; 
+    color: #005A9C; 
 }
 
 
-/* --- Gambar Utama --- */
 .image-container {
   text-align: center;
   margin: 0;
@@ -83,22 +79,22 @@ body {
 .image {
   max-width: 100%;
   height: auto;
-  border-radius: 8px; /* Sudut gambar yang tumpul */
+  border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* --- Konten Visi & Misi --- */
+
 .vision-mission {
   padding: 25px;
   margin-top: 20px;
 }
 
 .vision-mission h4 {
-  color: #005A9C; /* Warna subjudul sama dengan header */
+  color: #005A9C; 
   font-size: 1.5em;
   margin-top: 0;
   margin-bottom: 15px;
-  border-left: 4px solid #005A9C; /* Garis aksen di kiri */
+  border-left: 4px solid #005A9C;
   padding-left: 10px;
 }
 
@@ -108,21 +104,21 @@ body {
   margin-bottom: 25px;
 }
 
-/* Aturan untuk Misi dalam bentuk daftar */
+
 .vision-mission ul {
-  list-style-type: none; /* Menghilangkan bulatan default */
+  list-style-type: none; 
   padding-left: 0;
 }
 
 .vision-mission ul li {
   background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23005A9C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>') no-repeat left center;
-  padding-left: 35px; /* Memberi ruang untuk ikon centang */
+  padding-left: 35px; 
   margin-bottom: 15px;
   font-size: 1.1em;
   color: #555;
 }
 
-/* --- Garis Pemisah --- */
+
 .separator {
   border: 0;
   height: 1px;

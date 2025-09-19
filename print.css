@@ -25,7 +25,7 @@ hr {
   margin: 20px 0;
 }
 
-/* tabel identitas pasien tanpa garis */
+
 .table-identitas {
   border-collapse: collapse;
   margin: 20px auto;
@@ -37,11 +37,11 @@ hr {
 .table-identitas td {
   padding: 6px 15px;
   text-align: left;
-  border: none;       /* hilangkan garis */
-  background: none;   /* transparan */
+  border: none;       
+  background: none; 
 }
 
-/* tabel hasil lab dengan border */
+
 #tableHasil {
   border-collapse: collapse;
   margin: 20px auto;

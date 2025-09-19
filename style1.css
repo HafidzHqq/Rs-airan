@@ -1,17 +1,14 @@
-/* style.css */
 
-/* --- Gaya Global & Tipografi --- */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f7f6; /* Warna latar belakang sedikit abu-abu */
-  color: #333; /* Warna teks utama */
+  background-color: #f4f7f6; 
+  color: #333;
   line-height: 1.6;
 }
 
-/* --- Header & Judul Utama --- */
-/* Browser akan menargetkan elemen pertama dengan ID ini */
+
 #container {
   text-align: center;
   padding: 20px;
@@ -19,20 +16,18 @@ body {
 }
 
 #container h1 {
-  color: #005A9C; /* Biru korporat yang menenangkan */
-  font-size: 2.5em;
+  color: #005A9C; 
   margin: 0;
 }
 
-/* --- Bilah Navigasi --- */
 .navigation-bar {
-  background-color: #005A9C; /* Warna biru utama */
+  background-color: #005A9C; 
   padding: 15px 0;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: sticky;   /* sticky */
-  top: 0;             /* nempel di atas */
-  margin: 0;          /* tanpa jarak */
+  position: sticky; 
+  top: 0;           
+  margin: 0;         
   z-index: 1000;      
 }
 
@@ -55,22 +50,21 @@ body {
   font-size: 1.1em;
   padding: 10px 15px;
   border-radius: 10px;
-  transition: background-color 0.3s ease; /* Transisi halus saat hover */
+  transition: background-color 0.3s ease; 
 }
 
 .navigation-bar ul li a:hover {
-  background-color: #ffffff; /* Warna biru lebih gelap */
-    color: #005A9C; /* Teks berubah warna saat hover */
+  background-color: #ffffff;
+  color: #005A9C;
 }
 
-/* --- Gaya Formulir Input --- */
 .form {
   background-color: #ffffff;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 960px;
-  margin: 0 auto; /* Posisi di tengah, jarak atas/bawah diatur <br> */
+  margin: 0 auto; 
 }
 
 .form h1 {
@@ -82,7 +76,7 @@ body {
 }
 
 .form label {
-  display: block; /* Label di atas input field */
+  display: block;
   font-weight: bold;
   margin-bottom: 8px;
   margin-top: 15px;
@@ -107,7 +101,7 @@ body {
   box-shadow: 0 0 5px rgba(0, 90, 156, 0.3);
 }
 
-/* --- Tombol Simpan Data --- */
+
 #submitBtn {
   width: 100%;
   padding: 15px;
@@ -126,7 +120,7 @@ body {
   background-color: #004B82;
 }
 
-/* --- Gaya Tabel Data Pasien --- */
+
 #studentList {
   background-color: #ffffff;
   padding: 30px;
@@ -134,7 +128,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   max-width: 960px;
   margin: 40px auto;
-  overflow-x: auto; /* Agar tabel bisa di-scroll di layar kecil */
+  overflow-x: auto; 
 }
 
 #studentList h2 {
@@ -145,11 +139,11 @@ body {
   font-size: 2em;
 }
 
-/* Mengatur ulang tabel yang memiliki border="1" */
+
 #studentList table {
   width: 100%;
-  border-collapse: collapse; /* Kunci untuk menata ulang tabel */
-  border: none; /* Menghilangkan sisa border luar */
+  border-collapse: collapse; 
+  border: none;
   margin-top: 20px;
 }
 
@@ -157,10 +151,9 @@ body {
 #studentList td {
   padding: 12px 15px;
   text-align: left;
-  border: none; /* Menghapus border bawaan */
-  border-bottom: 1px solid #ddd; /* Memberi garis pemisah modern */
+  border: none; 
+  border-bottom: 1px solid #ddd; 
 }
-
 #studentList thead th {
   background-color: #f4f7f6;
   font-weight: bold;
@@ -171,7 +164,7 @@ body {
   background-color: #eaf6ff;
 }
 
-/* Tombol Aksi di Tabel (Edit & Hapus) */
+
 #studentList td button {
   padding: 6px 12px;
   border: none;
@@ -188,11 +181,11 @@ body {
 }
 
 button[onclick*="editData"] {
-  background-color: #007bff; /* Biru */
+  background-color: #007bff;
 }
 
 button[onclick*="hapusData"] {
-  background-color: #dc3545; /* Merah */
+  background-color: #dc3545; 
 }
 @media (max-width: 600px) {
   .navigation-bar ul {
