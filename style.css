@@ -1,48 +1,86 @@
+/* ==========================================================================
+   Elegant Dark Theme v3 (Improved Readability)
+   ========================================================================== */
 
+/* ------------------- CSS Variables for Easy Theming ------------------- */
+:root {
+  --bg-dark: #0D1117; 
+  --surface-dark: #161B22; 
+  
+  /* [PERUBAHAN] Warna font diubah agar lebih kontras dan mudah dibaca */
+  --primary-text: #F0F6FC; /* Teks utama, dibuat lebih cerah (hampir putih) */
+  --secondary-text: #CED5DE; /* Teks sekunder, dibuat lebih terang dan jelas */
+  
+  --border-color: #30363d;
+  
+  --accent-gradient: linear-gradient(100deg, #a855f7, #5eead4); 
+  --accent-purple: #a855f7;
+  --accent-teal: #5eead4;
+}
+
+/* ------------------- Styling Dasar ------------------- */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f7f6; 
-  color: #333; 
+  background-color: var(--bg-dark); 
+  color: var(--secondary-text); /* Menggunakan warna sekunder sebagai default untuk paragraf */
   line-height: 1.6;
 }
-
 
 .container {
   max-width: 960px;
   margin: 20px auto; 
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); 
+  background-color: var(--surface-dark);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); 
 }
 
-
+/* ------------------- Hero Header (Bagian Foto RS) ------------------- */
 .header {
+  /* GANTI URL DI BAWAH DENGAN URL GAMBAR RS ANDA */
+  background-image: 
+    linear-gradient(rgba(13, 17, 23, 0.7), rgba(13, 17, 23, 0.7)),
+    url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop');
+
+  background-size: cover;
+  background-position: center center;
+  
+  height: 50vh;
+  min-height: 300px;
+  color: #ffffff;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
 }
 
 .header h1 {
-  color: #005A9C; 
-  font-size: 2.5em;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  font-size: 3.5em;
   margin: 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 
+/* ------------------- Navigation ------------------- */
 .navigation-bar {
-  background-color: #005A9C; 
+  background-color: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(10px);
   padding: 15px 0;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  position: sticky;  
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;   
   top: 0;            
-  margin: 0;          
-  z-index: 1000;      
+  z-index: 1000;       
 }
-
 
 .navigation-bar ul {
   margin: 0;
@@ -52,58 +90,53 @@ body {
 
 .navigation-bar ul li {
   display: inline-block;
-  margin: 0 20px;
+  margin: 0 15px;
 }
 
 .navigation-bar ul li a {
-  color: #ffffff;
+  color: var(--primary-text);
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1em;
-  padding: 10px 15px;
-  border-radius: 10px;
-  transition: background-color 0.3s ease; 
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.3s ease; 
 }
 
 .navigation-bar ul li a:hover {
-  background-color: #ffffff; 
-    color: #005A9C; 
+  background: var(--accent-gradient); 
+  color: #ffffff; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
 }
-
 
 .image-container {
-  text-align: center;
-  margin: 0;
-}
-
-.image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: none;
 }
 
 
-.vision-mission {
+/* ------------------- Konten Utama ------------------- */
+.vision-mission, .services, .doctor-schedule {
   padding: 25px;
   margin-top: 20px;
+  background-color: transparent;
+  border-radius: 8px;
 }
 
-.vision-mission h4 {
-  color: #005A9C; 
-  font-size: 1.5em;
+.vision-mission h4, .services h4, .doctor-schedule h4 {
+  color: var(--accent-teal); 
+  font-size: 1.6em;
   margin-top: 0;
-  margin-bottom: 15px;
-  border-left: 4px solid #005A9C;
-  padding-left: 10px;
+  margin-bottom: 20px;
+  border-left: 4px solid var(--accent-purple);
+  padding-left: 15px;
 }
 
 .vision-mission p {
   font-size: 1.1em;
-  color: #555;
+  color: var(--secondary-text); /* Warna ini sudah diperbarui di :root */
   margin-bottom: 25px;
 }
-
 
 .vision-mission ul {
   list-style-type: none; 
@@ -111,27 +144,188 @@ body {
 }
 
 .vision-mission ul li {
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23005A9C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>') no-repeat left center;
-  padding-left: 35px; 
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>') no-repeat left center;
+  padding-left: 40px; 
   margin-bottom: 15px;
   font-size: 1.1em;
-  color: #555;
+  color: var(--secondary-text); /* Warna ini juga sudah diperbarui */
 }
 
+/* ------------------- Jadwal Dokter (Tabel) ------------------- */
+table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 1em;
+    }
 
-.separator {
-  border: 0;
-  height: 1px;
-  background-color: #e0e0e0;
-  margin: 30px 0;
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #005A9C;
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f4f7f6;
+    }
+
+    table tr:hover {
+      background-color: #e0f0ff;
+    }
+
+    /* Tambahan styling untuk services dan doctor-schedule */
+    .services, .doctor-schedule {
+      padding: 25px;
+      margin-top: 20px;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .services h4, .doctor-schedule h4 {
+      color: #005A9C;
+      font-size: 1.5em;
+      border-left: 4px solid #005A9C;
+      padding-left: 10px;
+      margin-bottom: 15px;
+    }
+
+    .services ul li {
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      table th {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      table td {
+        position: relative;
+        padding-left: 50%;
+        border: none;
+        border-bottom: 1px solid #ddd;
+      }
+      table td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+      }
 }
-@media (max-width: 600px) {
-  .navigation-bar ul {
-    flex-direction: column;
-    align-items: center;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 1em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+table th, table td {
+  border: 1px solid var(--border-color);
+  padding: 12px 15px;
+  text-align: left;
+}
+
+table th {
+  background: var(--accent-gradient);
+  color: #ffffff; /* Menggunakan putih solid agar paling kontras */
+  font-weight: bold;
+}
+
+table tr {
+  background-color: var(--surface-dark);
+}
+
+table tr:nth-child(even) {
+  background-color: #21283e;
+}
+
+table tr:hover {
+  background-color: var(--border-color);
+}
+
+/* ------------------- Footer ------------------- */
+footer {
+  background-color: var(--bg-dark); 
+  color: var(--secondary-text);
+  text-align: center;
+  padding: 30px;
+  margin-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+footer h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.4em;
+  color: var(--primary-text);
+}
+
+footer p {
+  margin: 5px 0;
+  font-size: 1em;
+}
+
+/* ------------------- Media Query untuk Tampilan Mobile ------------------- */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2.5em;
   }
-  .navigation-bar a {
-    width: 100%;
-    text-align: center;
+
+  .navigation-bar ul li {
+    display: block;
+    margin: 10px 0;
+  }
+  
+  .container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+  
+  table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  table tr {
+    border: 1px solid var(--border-color);
+    margin-bottom: 15px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  table td {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+  
+  table td:last-child {
+      border-bottom: 0;
+  }
+  
+  table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 15px;
+    font-weight: bold;
+    color: var(--accent-teal);
+    text-align: left;
   }
 }

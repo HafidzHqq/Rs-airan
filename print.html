@@ -56,10 +56,12 @@
           <tr><td>Leukosit</td><td>${pasien.leukosit || "-"}</td><td>/µL</td><td>4.500-10.500</td></tr>
           <tr><td>Eritrosit</td><td>${pasien.eritrosit || "-"}</td><td>/µL</td><td>L : 4,7-6,1 jt ; P : 4,2-5,4 jt</td></tr>
           <tr><td>Trombosit</td><td>${pasien.trombosit || "-"}</td><td>/µL</td><td>150.000-450.000</td></tr>
-          <tr><td>MCV</td><td>${pasien.mcv || "-"}</td><td>fL</td><td>80-96</td></tr>
-          <tr><td>HbsAG</td><td>${pasien.HbsAG || "-"}</td><td>pg</td><td></td></tr>
-          <tr><td>MCHC</td><td>${pasien.MCHC || "-"}</td><td>g/dL</td><td></td></tr>
-          
+          <tr><td>MCV</td><td>${pasien.MCV || "-"}</td><td>fL</td><td>80-96</td></tr>
+          <tr><td>MCH</td><td>${pasien.MCH || "-"}</td><td>pg</td><td>27-31</td></tr>
+          <tr><td>MCHC</td><td>${pasien.MCHC || "-"}</td><td>g/dL</td><td>32-36</td></tr>
+          <tr><td>HbsAG</td><td>${pasien.HbsAG || "-"}</td><td>-</td><td>Negatif</td></tr>
+          <tr><td>AST</td><td>${pasien.AST || "-"}</td><td>U/L</td><td>10-40</td></tr>
+          <tr><td>ALT</td><td>${pasien.ALT || "-"}</td><td>U/L</td><td>7-56</td></tr>
         </tbody>
       `;
 
@@ -78,3 +80,4 @@
   </script>
 </body>
 </html>
+```

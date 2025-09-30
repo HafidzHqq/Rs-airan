@@ -25,8 +25,8 @@
   <label for="pasienSelect">Pilih Pasien:</label>
   <select id="pasienSelect"></select>
 
-
-  <div class="form">
+  <!-- Form input dibungkus dengan id="formInput" -->
+  <div class="form" id="formInput">
     <label for="hemogoblin">Hemoglobin:</label>
     <input type="number" id="hemogoblin" step="0.01">
 
@@ -43,10 +43,13 @@
     <input type="number" id="trombosit">
 
     <label for="HbsAG">HbsAG:</label>
-    <input type="HbsAG" id="HbsAGt">
-    
-    <label for="MCHC">MCHC:</label>
-    <input type="MCHC" id="MCHC">
+    <input type="text" id="HbsAG">
+
+    <label for="AST">AST:</label>
+    <input type="number" id="AST">
+
+    <label for="ALT">ALT:</label>
+    <input type="number" id="ALT">
 
     <button onclick="simpanHasilLab()">Simpan Hasil Lab</button>
   </div>
@@ -64,7 +67,11 @@
         <th>Eritrosit</th>
         <th>Trombosit</th>
         <th>HbsAG</th>
+        <th>MCH</th>
         <th>MCHC</th>
+        <th>MCV</th>
+        <th>AST</th>
+        <th>ALT</th> 
         <th>Aksi</th>
       </tr>
     </thead>
@@ -73,7 +80,6 @@
 
   <script>
     let editPasienId = null;
-
 
     function loadPasienDropdown() {
       let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
@@ -101,13 +107,33 @@
         return;
       }
 
-      pasien.hemogoblin = document.getElementById("hemogoblin").value || 0;
-      pasien.hematokrit = document.getElementById("hematokrit").value || 0;
-      pasien.leukosit = document.getElementById("leukosit").value || 0;
-      pasien.eritrosit = document.getElementById("eritrosit").value || 0;
-      pasien.trombosit = document.getElementById("trombosit").value || 0;
-      pasien.HbsAG = document.getElementById("HbsAG").value || 0;
-      pasien.MCHC = document.getElementById("MCHC").value || 0;
+      // ambil nilai input
+      let hemogoblin = parseFloat(document.getElementById("hemogoblin").value) || 0;
+      let hematokrit = parseFloat(document.getElementById("hematokrit").value) || 0;
+      let leukosit = parseFloat(document.getElementById("leukosit").value) || 0;
+      let eritrosit = parseFloat(document.getElementById("eritrosit").value) || 0;
+      let trombosit = parseFloat(document.getElementById("trombosit").value) || 0;
+      let HbsAG = document.getElementById("HbsAG").value || "-";
+      let AST = document.getElementById("AST").value || "-";
+      let ALT = document.getElementById("ALT").value || "-";
+
+      // hitung otomatis MCV, MCH, MCHC
+      let MCV = eritrosit > 0 ? (hematokrit * 10 / eritrosit).toFixed(2) : 0;
+      let MCH = eritrosit > 0 ? (hemogoblin * 10 / eritrosit).toFixed(2) : 0;
+      let MCHC = hematokrit > 0 ? (hemogoblin * 100 / hematokrit).toFixed(2) : 0;
+
+      // simpan ke pasien
+      pasien.hemogoblin = hemogoblin;
+      pasien.hematokrit = hematokrit;
+      pasien.leukosit = leukosit;
+      pasien.eritrosit = eritrosit;
+      pasien.trombosit = trombosit;
+      pasien.HbsAG = HbsAG;
+      pasien.MCV = MCV;
+      pasien.MCH = MCH;
+      pasien.MCHC = MCHC;
+      pasien.AST = AST;
+      pasien.ALT = ALT;
 
       localStorage.setItem('pasienList', JSON.stringify(pasienList));
 
@@ -115,13 +141,15 @@
       editPasienId = null;
       tampilkanHasilLab();
 
+      // reset form
       document.getElementById("hemogoblin").value = "";
       document.getElementById("hematokrit").value = "";
       document.getElementById("leukosit").value = "";
       document.getElementById("eritrosit").value = "";
       document.getElementById("trombosit").value = "";
       document.getElementById("HbsAG").value = "";
-      document.getElementById("MCHC").value = "";
+      document.getElementById("AST").value = "";
+      document.getElementById("ALT").value = "";
     }
 
     function cetakPasien(pasienId) {
@@ -136,15 +164,20 @@
         return;
       }
 
+      document.getElementById("pasienSelect").value = pasien.id;
       document.getElementById("hemogoblin").value = pasien.hemogoblin || "";
       document.getElementById("hematokrit").value = pasien.hematokrit || "";
       document.getElementById("leukosit").value = pasien.leukosit || "";
       document.getElementById("eritrosit").value = pasien.eritrosit || "";
       document.getElementById("trombosit").value = pasien.trombosit || "";
       document.getElementById("HbsAG").value = pasien.HbsAG || "";
-      document.getElementById("MCHC").value = pasien.MCHC || "";
+      document.getElementById("AST").value = pasien.AST || "";
+      document.getElementById("ALT").value = pasien.ALT || "";
 
       editPasienId = pasien.id; 
+
+      // otomatis scroll ke form input
+      document.getElementById("formInput").scrollIntoView({ behavior: "smooth" });
     }
 
     function tampilkanHasilLab() {
@@ -162,7 +195,11 @@
           <td>${p.eritrosit || "-"}</td>
           <td>${p.trombosit || "-"}</td>
           <td>${p.HbsAG || "-"}</td>
+          <td>${p.MCH || "-"}</td>
           <td>${p.MCHC || "-"}</td>
+          <td>${p.MCV || "-"}</td>
+          <td>${p.AST || "-"}</td>
+          <td>${p.ALT || "-"}</td>
           <td>
             <button onclick="cetakPasien(${p.id})">Cetak</button>
             <button onclick="editPasien(${p.id})">Edit</button>
