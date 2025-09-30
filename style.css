@@ -152,76 +152,7 @@ body {
 }
 
 /* ------------------- Jadwal Dokter (Tabel) ------------------- */
-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 1em;
-    }
 
-    table th, table td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: left;
-    }
-
-    table th {
-      background-color: #005A9C;
-      color: #fff;
-    }
-
-    table tr:nth-child(even) {
-      background-color: #f4f7f6;
-    }
-
-    table tr:hover {
-      background-color: #e0f0ff;
-    }
-
-    /* Tambahan styling untuk services dan doctor-schedule */
-    .services, .doctor-schedule {
-      padding: 25px;
-      margin-top: 20px;
-      background-color: #f9fafb;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .services h4, .doctor-schedule h4 {
-      color: #005A9C;
-      font-size: 1.5em;
-      border-left: 4px solid #005A9C;
-      padding-left: 10px;
-      margin-bottom: 15px;
-    }
-
-    .services ul li {
-      margin-bottom: 10px;
-      font-size: 1.1em;
-    }
-
-    @media (max-width: 600px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      table th {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-      }
-      table td {
-        position: relative;
-        padding-left: 50%;
-        border: none;
-        border-bottom: 1px solid #ddd;
-      }
-      table td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        font-weight: bold;
-      }
-}
 table {
   width: 100%;
   border-collapse: collapse;
