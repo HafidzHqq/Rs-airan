@@ -62,10 +62,7 @@ body {
 /* Tampilan Navbar Saat halaman di-scroll */
 .navigation-bar.scrolled {
   position: fixed;
-  padding-left: 30px;
-  border-bottom: 3px solid var(--border-light); /* underline */
-  justify-content: flex-start;  /* semua isi ditarik ke kiri */
-  gap: 1100px; /* spasi antara logo & menu */
+
   top: 0;
   left: 0;
   width: 100%;
@@ -76,6 +73,9 @@ body {
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 15px 40px;
+  border: var(--darker-green) solid 1px;
+  gap: 1090px; /* spasi antara logo & menu */
+    justify-content: flex-start;  /* semua isi ditarik ke kiri */
 
 }
 
