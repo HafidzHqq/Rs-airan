@@ -1,83 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cetak</title>
+  <title>Cetak Hasil Lab</title>
   <link rel="stylesheet" href="print.css">
 </head>
 <body>
-  <div class="container">
-    <div class="text-h1 text-bold">RS Imanuel Way Halim</div>
-    <div class="text-bold">Jl. Soekarno Hatta No.1 Bandar Lampung</div>
-    <div>SMS dan Whatsapp center : 0811-7205-948 | Email : customercare@rsimanuellampung.com</div>
+
+  <div class="print-header-container">
+    <div class="logo logo-rs">
+      <img src="logors.jpg" alt="Logo Rumah Sakit">
+    </div>
+    <div class="center-text">
+      <h2>RUMAH SAKIT IMANUEL</h2>
+      <h4>WAY HALIM</h4>
+      <p>Jl. Soekarno-Hatta, Bandar Lampung, Lampung<br>
+      Telp: (0721) 123456 | WhatsApp: 0811-7205-948 | Email: info@rsimanuel.co.id</p>
+    </div>
+    <div class="logo">
+      <img src="poltek.jpg" alt="Logo Politeknik">
+    </div>
   </div>
-  <hr>
+  
   <div class="container">
-    <div class="text-bold"><u>Hasil Pemeriksaan Laboratorium</u></div>
-
-    <!-- Identitas pasien -->
     <table class="table-identitas" id="tableIdentitas"></table>
+    
+    <div class="text-bold" style="text-align:center; font-size: 16px; margin-bottom: 20px;"><u>HASIL PEMERIKSAAN LABORATORIUM</u></div>
 
-    <!-- Tabel hasil lab -->
     <table id="tableHasil"></table>
 
-    <!-- Penanggung jawab -->
     <div id="penanggungJawab"></div>
   </div>
 
   <script>
+    const labTestDetails = {
+      hemogoblin: { name: "Hemoglobin", unit: "g/dl", normal: "L: 13-17; P: 12-16" },
+      hematokrit: { name: "Hematokrit", unit: "%", normal: "L: 42-54; P: 38-46" },
+      leukosit: { name: "Leukosit", unit: "/µL", normal: "4.000-10.000" },
+      eritrosit: { name: "Eritrosit", unit: "juta/µL", normal: "L: 4,5-6,5; P: 4,0-5,0" },
+      trombosit: { name: "Trombosit", unit: "/µL", normal: "150.000-450.000" },
+      led: { name: "LED", unit: "mm/jam", normal: "L: 0-15; P: 0-20" },
+      retikulosit: { name: "Retikulosit", unit: "%", normal: "0,2-2,0" },
+      MCV: { name: "MCV", unit: "fL", normal: "80-100" },
+      MCH: { name: "MCH", unit: "pg", normal: "27-33" },
+      MCHC: { name: "MCHC", unit: "g/dL", normal: "32-36" },
+      sgot: { name: "SGOT (AST)", unit: "U/L", normal: "5-40" },
+      sgpt: { name: "SGPT (ALT)", unit: "U/L", normal: "7-56" },
+      bilirubin: { name: "Bilirubin Total", unit: "mg/dL", normal: "Negatif" },
+      ureum: { name: "Ureum", unit: "mg/dL", normal: "L: 8-24; P: 6-21" },
+      creatinine: { name: "Creatinine", unit: "mg/dL", normal: "L: 0,6-1,2; P: 0,5-1,1" },
+      HbsAG: { name: "HbsAG", unit: "", normal: "Non-Reaktif" },
+      antiHbs: { name: "Anti HBs", unit: "mIU/mL", normal: "> 10-12" },
+      antiHcv: { name: "Anti HCV", unit: "", normal: "Negatif" },
+      urine: { name: "Urine Lengkap", unit: "", normal: "Lihat lampiran/detail" }
+    };
+
+    /**
+     * [PERBAIKAN] Fungsi untuk memeriksa hasil lab dengan logika yang lebih akurat.
+     */
+    function isAbnormal(value, normalRange, gender) {
+        if (value === null || value === undefined || value === '' || value === '-') return false;
+        
+        // Fungsi helper untuk membersihkan dan mengonversi string angka
+        const cleanAndParse = (str) => parseFloat(str.toString().replace(/\./g, '').replace(/,/g, '.'));
+
+        let numericValue;
+        const valueStr = value.toString().trim();
+        
+        if (isNaN(cleanAndParse(valueStr))) {
+            numericValue = valueStr.toLowerCase();
+        } else {
+            numericValue = cleanAndParse(valueStr);
+        }
+
+        let range = normalRange.trim();
+
+        // 1. Penanganan rentang berbasis gender
+        if (range.includes("L:") && range.includes("P:")) {
+            const parts = range.split(';');
+            const genderPart = gender === 'L' ? parts[0] : parts[1];
+            if (genderPart) {
+                range = genderPart.split(':')[1].trim();
+            }
+        }
+        
+        // 2. Penanganan nilai teks
+        if (range.toLowerCase() === 'non-reaktif' || range.toLowerCase() === 'negatif') {
+            return numericValue !== range.toLowerCase();
+        }
+
+        // 3. Penanganan '<'
+        if (range.startsWith('<')) {
+            const max = cleanAndParse(range.replace('<', ''));
+            if (!isNaN(max) && typeof numericValue === 'number') {
+                return numericValue >= max;
+            }
+        }
+        // 4. Penanganan '>'
+        else if (range.startsWith('>')) {
+            const min = cleanAndParse(range.replace('>', '').split('-')[0]);
+            if (!isNaN(min) && typeof numericValue === 'number') {
+                return numericValue < min;
+            }
+        }
+        // 5. Penanganan rentang '-'
+        else if (range.includes('-')) {
+            const [min, max] = range.split('-').map(val => cleanAndParse(val));
+            if (!isNaN(min) && !isNaN(max) && typeof numericValue === 'number') {
+                return numericValue < min || numericValue > max;
+            }
+        }
+
+        return false;
+    }
+
+
     const urlParams = new URLSearchParams(window.location.search);
     const pasienId = parseInt(urlParams.get("id"));
     const pasienList = JSON.parse(localStorage.getItem("pasienList")) || [];
     const pasien = pasienList.find(p => p.id === pasienId);
 
     if (pasien) {
-      // identitas pasien
       document.getElementById("tableIdentitas").innerHTML = `
         <tbody>
-          <tr><th>Nama</th><td>: ${pasien.nama}</td></tr>
-          <tr><th>Umur</th><td>: ${pasien.umur || "-"}</td></tr>
-          <tr><th>Jenis Kelamin</th><td>: ${pasien.jekel === "L" ? "Laki-laki" : "Perempuan"}</td></tr>
-          <tr><th>Tanggal Periksa</th><td>: ${pasien.tanggal || "-"}</td></tr>
-          <tr><th>Alamat</th><td>: ${pasien.alamat || "-"}</td></tr>
-          <tr><th>Diagnosa</th><td>: ${pasien.diagnosa || "-"}</td></tr>
-          <tr><th>Dokter Pengirim</th><td>: ${pasien.dokter_pengirim || "-"}</td></tr>
-        </tbody>
-      `;
+          <tr>
+            <th>Nama</th><td class="colon">:</td><td class="value">${pasien.nama}</td>
+            <th>Tanggal Periksa</th><td class="colon">:</td><td class="value">${pasien.tanggal || "-"}</td>
+          </tr>
+          <tr>
+            <th>Umur</th><td class="colon">:</td><td class="value">${pasien.umur || "-"} Tahun</td>
+            <th>Alamat</th><td class="colon">:</td><td class="value">${pasien.alamat || "-"}</td>
+          </tr>
+          <tr>
+            <th>Jenis Kelamin</th><td class="colon">:</td><td class="value">${pasien.jekel === "L" ? "Laki-laki" : "Perempuan"}</td>
+            <th>Diagnosa</th><td class="colon">:</td><td class="value">${pasien.diagnosa || "-"}</td>
+          </tr>
+          <tr>
+            <th>Dokter Pengirim</th><td class="colon">:</td><td class="value" colspan="4">${pasien.dokter_pengirim || "-"}</td>
+          </tr>
+        </tbody>`;
 
-      // tabel hasil lab
-      document.getElementById("tableHasil").innerHTML = `
-        <tbody>
-          <tr><th>Nama</th><th>Hasil</th><th>Satuan</th><th>Nilai Normal</th></tr>
-          <tr><td>Hemoglobin</td><td>${pasien.hemogoblin || "-"}</td><td>g/dl</td><td>L : 12,6-17,4 ; P : 11,7-16,1</td></tr>
-          <tr><td>Hematokrit</td><td>${pasien.hematokrit || "-"}</td><td>%</td><td>L : 36-52 ; P : 34-64</td></tr>
-          <tr><td>Leukosit</td><td>${pasien.leukosit || "-"}</td><td>/µL</td><td>4.500-10.500</td></tr>
-          <tr><td>Eritrosit</td><td>${pasien.eritrosit || "-"}</td><td>/µL</td><td>L : 4,7-6,1 jt ; P : 4,2-5,4 jt</td></tr>
-          <tr><td>Trombosit</td><td>${pasien.trombosit || "-"}</td><td>/µL</td><td>150.000-450.000</td></tr>
-          <tr><td>MCV</td><td>${pasien.MCV || "-"}</td><td>fL</td><td>80-96</td></tr>
-          <tr><td>MCH</td><td>${pasien.MCH || "-"}</td><td>pg</td><td>27-31</td></tr>
-          <tr><td>MCHC</td><td>${pasien.MCHC || "-"}</td><td>g/dL</td><td>32-36</td></tr>
-          <tr><td>HbsAG</td><td>${pasien.HbsAG || "-"}</td><td>-</td><td>Negatif</td></tr>
-          <tr><td>AST</td><td>${pasien.AST || "-"}</td><td>U/L</td><td>10-40</td></tr>
-          <tr><td>ALT</td><td>${pasien.ALT || "-"}</td><td>U/L</td><td>7-56</td></tr>
-        </tbody>
-      `;
+      const tableHasil = document.getElementById("tableHasil");
+      let tableHTML = `<thead><tr><th>Pemeriksaan</th><th>Hasil</th><th>Satuan</th><th>Nilai Normal</th></tr></thead><tbody>`;
 
-      // penanggung jawab
+      if (pasien.hasilLab && Object.keys(pasien.hasilLab).length > 0) {
+        for (const key in pasien.hasilLab) {
+          if (labTestDetails[key]) {
+            const details = labTestDetails[key];
+            const value = pasien.hasilLab[key];
+            
+            const isRowAbnormal = isAbnormal(value, details.normal, pasien.jekel);
+            const rowClass = isRowAbnormal ? 'class="abnormal"' : '';
+
+            tableHTML += `<tr ${rowClass}><td>${details.name}</td><td>${value}</td><td>${details.unit}</td><td>${details.normal}</td></tr>`;
+          }
+        }
+      } else {
+        tableHTML += '<tr><td colspan="4" style="text-align:center;">Belum ada data hasil lab.</td></tr>';
+      }
+      tableHTML += `</tbody>`;
+      tableHasil.innerHTML = tableHTML;
+
       document.getElementById("penanggungJawab").innerHTML = `
-        <div><u>Penanggung Jawab</u></div>
-        <br><br><br>
-        <div><u>${pasien.penanggung_jawab || "-"}</u></div>
-        <div>NIP. 11010001156432</div>
-      `;
+        <div><u>Penanggung Jawab</u></div><br><br><br>
+        <div><u>${pasien.penanggung_jawab || "_________________"}</u></div>
+        <div>NIP. 11010001156432</div>`;
+      
+      setTimeout(() => {
+        window.print();
+      }, 500);
 
-      window.print();
     } else {
       document.body.innerHTML = "<h2>Data pasien tidak ditemukan!</h2>";
     }
   </script>
 </body>
 </html>
-```

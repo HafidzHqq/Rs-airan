@@ -12,207 +12,235 @@
   </div>
 
   <div class="navigation-bar">
+    <a href="index.html" class="navbar-logo">RS Imanuel</a>
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="data_pasien.html">Data Pasien</a></li>
       <li><a href="data_hasil_lab.html">Data Hasil Lab</a></li>
     </ul>
   </div>
-  <br><br>
 
-  <h1>Input Data Hasil Lab</h1>
+  <div class="container">
+    <h1 class="page-title" id="input-header">Input Data Hasil Lab</h1>
 
-  <label for="pasienSelect">Pilih Pasien:</label>
-  <select id="pasienSelect"></select>
+    <div class="main-controls">
+      <label for="pasienSelect">Pilih Pasien:</label>
+      <select id="pasienSelect"></select>
+    </div>
 
-  <!-- Form input dibungkus dengan id="formInput" -->
-  <div class="form" id="formInput">
-    <label for="hemogoblin">Hemoglobin:</label>
-    <input type="number" id="hemogoblin" step="0.01">
+    <h3>Pilih Pemeriksaan yang Akan Diinput:</h3>
+    <div id="pemeriksaanList">
+      <label><input type="checkbox" onchange="toggleInput('hemogoblinGroup'); toggleSaveButton();"> Hemoglobin</label>
+      <label><input type="checkbox" onchange="toggleInput('hematokritGroup'); toggleSaveButton();"> Hematokrit</label>
+      <label><input type="checkbox" onchange="toggleInput('leukositGroup'); toggleSaveButton();"> Leukosit</label>
+      <label><input type="checkbox" onchange="toggleInput('eritrositGroup'); toggleSaveButton();"> Eritrosit</label>
+      <label><input type="checkbox" onchange="toggleInput('trombositGroup'); toggleSaveButton();"> Trombosit</label>
+      <label><input type="checkbox" onchange="toggleInput('ledGroup'); toggleSaveButton();"> LED</label>
+      <label><input type="checkbox" onchange="toggleInput('retikulositGroup'); toggleSaveButton();"> Retikulosit</label>
+      <label><input type="checkbox" onchange="toggleInput('sgotGroup'); toggleSaveButton();"> SGOT (AST)</label>
+      <label><input type="checkbox" onchange="toggleInput('sgptGroup'); toggleSaveButton();"> SGPT (ALT)</label>
+      <label><input type="checkbox" onchange="toggleInput('bilirubinGroup'); toggleSaveButton();"> Bilirubin Total</label>
+      <label><input type="checkbox" onchange="toggleInput('ureumGroup'); toggleSaveButton();"> Ureum</label>
+      <label><input type="checkbox" onchange="toggleInput('creatinineGroup'); toggleSaveButton();"> Creatinine</label>
+      <label><input type="checkbox" onchange="toggleInput('HbsAGGroup'); toggleSaveButton();"> HbsAG</label>
+      <label><input type="checkbox" onchange="toggleInput('antiHbsGroup'); toggleSaveButton();"> Anti HBs</label>
+      <label><input type="checkbox" onchange="toggleInput('antiHcvGroup'); toggleSaveButton();"> Anti HCV</label>
+      <label><input type="checkbox" onchange="toggleInput('urineGroup'); toggleSaveButton();"> Urine Lengkap</label>
+    </div>
 
-    <label for="hematokrit">Hematokrit:</label>
-    <input type="number" id="hematokrit" step="0.01">
-
-    <label for="leukosit">Leukosit:</label>
-    <input type="number" id="leukosit">
-
-    <label for="eritrosit">Eritrosit:</label>
-    <input type="number" id="eritrosit" step="0.01">
-
-    <label for="trombosit">Trombosit:</label>
-    <input type="number" id="trombosit">
-
-    <label for="HbsAG">HbsAG:</label>
-    <input type="text" id="HbsAG">
-
-    <label for="AST">AST:</label>
-    <input type="number" id="AST">
-
-    <label for="ALT">ALT:</label>
-    <input type="number" id="ALT">
-
-    <button onclick="simpanHasilLab()">Simpan Hasil Lab</button>
+    <div id="formInput">
+      <div id="hemogoblinGroup" class="form-group hidden"><label for="hemogoblin">Hemoglobin:</label><input type="number" id="hemogoblin" step="0.01"></div>
+      <div id="hematokritGroup" class="form-group hidden"><label for="hematokrit">Hematokrit:</label><input type="number" id="hematokrit" step="0.01"></div>
+      <div id="leukositGroup" class="form-group hidden"><label for="leukosit">Leukosit:</label><input type="number" id="leukosit"></div>
+      <div id="eritrositGroup" class="form-group hidden"><label for="eritrosit">Eritrosit:</label><input type="number" id="eritrosit" step="0.01"></div>
+      <div id="trombositGroup" class="form-group hidden"><label for="trombosit">Trombosit:</label><input type="number" id="trombosit"></div>
+      <div id="ledGroup" class="form-group hidden"><label for="led">LED:</label><input type="number" id="led"></div>
+      <div id="retikulositGroup" class="form-group hidden"><label for="retikulosit">Retikulosit:</label><input type="number" id="retikulosit" step="0.1"></div>
+      <div id="sgotGroup" class="form-group hidden"><label for="sgot">SGOT (AST):</label><input type="number" id="sgot"></div>
+      <div id="sgptGroup" class="form-group hidden"><label for="sgpt">SGPT (ALT):</label><input type="number" id="sgpt"></div>
+      <div id="bilirubinGroup" class="form-group hidden"><label for="bilirubin">Bilirubin Total:</label><input type="number" id="bilirubin" step="0.01"></div>
+      <div id="ureumGroup" class="form-group hidden"><label for="ureum">Ureum:</label><input type="number" id="ureum"></div>
+      <div id="creatinineGroup" class="form-group hidden"><label for="creatinine">Creatinine:</label><input type="number" id="creatinine" step="0.01"></div>
+      <div id="HbsAGGroup" class="form-group hidden"><label for="HbsAG">HbsAG:</label><input type="text" id="HbsAG"></div>
+      <div id="antiHbsGroup" class="form-group hidden"><label for="antiHbs">Anti HBs:</label><input type="text" id="antiHbs"></div>
+      <div id="antiHcvGroup" class="form-group hidden"><label for="antiHcv">Anti HCV:</label><input type="text" id="antiHcv"></div>
+      <div id="urineGroup" class="form-group hidden"><label for="urine">Urine Lengkap:</label><textarea id="urine" rows="4"></textarea></div>
+      <button id="saveBtn" class="hidden">Simpan Hasil Lab</button>
+    </div>
   </div>
 
-  <br>
+  <div class="patient-data-container">
+    <div class="table-header">
+      <h2 class="section-title">Data Hasil Lab Pasien</h2>
+      <div class="search-container">
+        <input type="search" id="searchInput" placeholder="Cari nama pasien...">
+        <button id="searchButton">Cari</button>
+      </div>
+    </div>
+  </div>
 
-  <h2>Data Hasil Lab Pasien</h2>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Nama</th>
-        <th>Hemoglobin</th>
-        <th>Hematokrit</th>
-        <th>Leukosit</th>
-        <th>Eritrosit</th>
-        <th>Trombosit</th>
-        <th>HbsAG</th>
-        <th>MCH</th>
-        <th>MCHC</th>
-        <th>MCV</th>
-        <th>AST</th>
-        <th>ALT</th> 
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="hasilLabList"></tbody>
-  </table>
+  <div id="hasilLabTable">
+    <table>
+      <thead>
+        <tr>
+          <th>Nama Pasien</th>
+          <th>ID Pasien</th>
+          <th>Tanggal Periksa</th>
+          <th>Dokter Pengirim</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="hasilLabList"></tbody>
+    </table>
+  </div>
 
   <script>
-    let editPasienId = null;
+
+    document.addEventListener("scroll", () => {
+  const navbar = document.querySelector(".navigation-bar");
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
+  }
+});
+    const DOM = {
+        pasienSelect: document.getElementById('pasienSelect'),
+        pemeriksaanCheckboxes: document.querySelectorAll('#pemeriksaanList input[type="checkbox"]'),
+        formInputContainer: document.getElementById('formInput'),
+        saveBtn: document.getElementById('saveBtn'),
+        searchInput: document.getElementById('searchInput'),
+        searchButton: document.getElementById('searchButton'),
+        tableBody: document.getElementById('hasilLabList'),
+        inputHeader: document.getElementById('input-header')
+    };
+
+    function getAllPatients() {
+        return JSON.parse(localStorage.getItem('pasienList')) || [];
+    }
+
+    function saveAllPatients(patients) {
+        localStorage.setItem('pasienList', JSON.stringify(patients));
+    }
+
+    function filterPatientsByName(patients, searchTerm) {
+        if (!searchTerm) return patients;
+        return patients.filter(p => p.nama.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
+    function renderTable(patients) {
+        DOM.tableBody.innerHTML = "";
+        const patientsWithLabResults = patients.filter(p => p.hasilLab && Object.keys(p.hasilLab).length > 0);
+        if (patientsWithLabResults.length === 0) {
+            DOM.tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Data tidak ditemukan.</td></tr>';
+            return;
+        }
+        patientsWithLabResults.forEach(p => {
+            const row = `<tr><td>${p.nama}</td><td>${p.id}</td><td>${p.tanggal || '-'}</td><td>${p.dokter_pengirim || '-'}</td><td><button onclick="handleEditClick(${p.id})">Edit</button><button onclick="printPasien(${p.id})">Cetak</button></td></tr>`;
+            DOM.tableBody.innerHTML += row;
+        });
+    }
 
     function loadPasienDropdown() {
-      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
-      let pasienSelect = document.getElementById('pasienSelect');
-      pasienSelect.innerHTML = "";
-
-      pasienList.forEach(p => {
-        let option = document.createElement("option");
-        option.value = p.id;
-        option.textContent = `${p.nama} (ID: ${p.id})`;
-        pasienSelect.appendChild(option);
-      });
+        const patients = getAllPatients();
+        DOM.pasienSelect.innerHTML = '<option value="">--- Pilih Pasien ---</option>';
+        patients.forEach(p => {
+            const option = document.createElement("option");
+            option.value = p.id;
+            option.textContent = `${p.nama} (ID: ${p.id})`;
+            DOM.pasienSelect.appendChild(option);
+        });
     }
 
-    function simpanHasilLab() {
-      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
-
-      let pasienId = editPasienId 
-        ? editPasienId 
-        : parseInt(document.getElementById("pasienSelect").value);
-
-      let pasien = pasienList.find(p => p.id === pasienId);
-      if (!pasien) {
-        alert("Pasien tidak ditemukan!");
-        return;
-      }
-
-      // ambil nilai input
-      let hemogoblin = parseFloat(document.getElementById("hemogoblin").value) || 0;
-      let hematokrit = parseFloat(document.getElementById("hematokrit").value) || 0;
-      let leukosit = parseFloat(document.getElementById("leukosit").value) || 0;
-      let eritrosit = parseFloat(document.getElementById("eritrosit").value) || 0;
-      let trombosit = parseFloat(document.getElementById("trombosit").value) || 0;
-      let HbsAG = document.getElementById("HbsAG").value || "-";
-      let AST = document.getElementById("AST").value || "-";
-      let ALT = document.getElementById("ALT").value || "-";
-
-      // hitung otomatis MCV, MCH, MCHC
-      let MCV = eritrosit > 0 ? (hematokrit * 10 / eritrosit).toFixed(2) : 0;
-      let MCH = eritrosit > 0 ? (hemogoblin * 10 / eritrosit).toFixed(2) : 0;
-      let MCHC = hematokrit > 0 ? (hemogoblin * 100 / hematokrit).toFixed(2) : 0;
-
-      // simpan ke pasien
-      pasien.hemogoblin = hemogoblin;
-      pasien.hematokrit = hematokrit;
-      pasien.leukosit = leukosit;
-      pasien.eritrosit = eritrosit;
-      pasien.trombosit = trombosit;
-      pasien.HbsAG = HbsAG;
-      pasien.MCV = MCV;
-      pasien.MCH = MCH;
-      pasien.MCHC = MCHC;
-      pasien.AST = AST;
-      pasien.ALT = ALT;
-
-      localStorage.setItem('pasienList', JSON.stringify(pasienList));
-
-      alert(editPasienId ? "Hasil lab berhasil diperbarui!" : "Hasil lab berhasil disimpan!");
-      editPasienId = null;
-      tampilkanHasilLab();
-
-      // reset form
-      document.getElementById("hemogoblin").value = "";
-      document.getElementById("hematokrit").value = "";
-      document.getElementById("leukosit").value = "";
-      document.getElementById("eritrosit").value = "";
-      document.getElementById("trombosit").value = "";
-      document.getElementById("HbsAG").value = "";
-      document.getElementById("AST").value = "";
-      document.getElementById("ALT").value = "";
+    function toggleSaveButton() {
+        const isAnyChecked = Array.from(DOM.pemeriksaanCheckboxes).some(checkbox => checkbox.checked);
+        DOM.saveBtn.classList.toggle('hidden', !isAnyChecked);
     }
 
-    function cetakPasien(pasienId) {
-      window.open("print.html?id=" + pasienId, "_blank");
+    function toggleInput(groupId) {
+        document.getElementById(groupId).classList.toggle("hidden");
     }
 
-    function editPasien(pasienId) {
-      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
-      let pasien = pasienList.find(p => p.id === pasienId);
-      if (!pasien) {
-        alert("Pasien tidak ditemukan!");
-        return;
-      }
-
-      document.getElementById("pasienSelect").value = pasien.id;
-      document.getElementById("hemogoblin").value = pasien.hemogoblin || "";
-      document.getElementById("hematokrit").value = pasien.hematokrit || "";
-      document.getElementById("leukosit").value = pasien.leukosit || "";
-      document.getElementById("eritrosit").value = pasien.eritrosit || "";
-      document.getElementById("trombosit").value = pasien.trombosit || "";
-      document.getElementById("HbsAG").value = pasien.HbsAG || "";
-      document.getElementById("AST").value = pasien.AST || "";
-      document.getElementById("ALT").value = pasien.ALT || "";
-
-      editPasienId = pasien.id; 
-
-      // otomatis scroll ke form input
-      document.getElementById("formInput").scrollIntoView({ behavior: "smooth" });
+    function resetForm() {
+        DOM.formInputContainer.querySelectorAll('input, textarea').forEach(input => input.value = '');
+        DOM.pemeriksaanCheckboxes.forEach(checkbox => checkbox.checked = false);
+        document.querySelectorAll('.form-group').forEach(group => group.classList.add('hidden'));
+        toggleSaveButton();
     }
 
-    function tampilkanHasilLab() {
-      let pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
-      let hasilLabList = document.getElementById("hasilLabList");
-      hasilLabList.innerHTML = "";
-
-      pasienList.forEach(p => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${p.nama}</td>
-          <td>${p.hemogoblin || "-"}</td>
-          <td>${p.hematokrit || "-"}</td>
-          <td>${p.leukosit || "-"}</td>
-          <td>${p.eritrosit || "-"}</td>
-          <td>${p.trombosit || "-"}</td>
-          <td>${p.HbsAG || "-"}</td>
-          <td>${p.MCH || "-"}</td>
-          <td>${p.MCHC || "-"}</td>
-          <td>${p.MCV || "-"}</td>
-          <td>${p.AST || "-"}</td>
-          <td>${p.ALT || "-"}</td>
-          <td>
-            <button onclick="cetakPasien(${p.id})">Cetak</button>
-            <button onclick="editPasien(${p.id})">Edit</button>
-          </td>
-        `;
-        hasilLabList.appendChild(row);
-      });
+    function updateView() {
+        const allPatients = getAllPatients();
+        const searchTerm = DOM.searchInput.value;
+        const filteredPatients = filterPatientsByName(allPatients, searchTerm);
+        renderTable(filteredPatients);
     }
 
-    window.onload = function() {
-      loadPasienDropdown();
-      tampilkanHasilLab();
+    function handleSaveLabData() {
+        const allPatients = getAllPatients();
+        const pasienId = parseInt(DOM.pasienSelect.value);
+        if (isNaN(pasienId) || !pasienId) return alert("Silakan pilih pasien terlebih dahulu!");
+        const pasienIndex = allPatients.findIndex(p => p.id === pasienId);
+        if (pasienIndex === -1) return alert("Pasien tidak ditemukan!");
+        let hasilLab = {};
+        const fields = ["hemogoblin", "hematokrit", "leukosit", "eritrosit", "trombosit", "led", "retikulosit", "sgot", "sgpt", "bilirubin", "ureum", "creatinine", "HbsAG", "antiHbs", "antiHcv", "urine"];
+        fields.forEach(field => {
+            const group = document.getElementById(`${field}Group`);
+            if (!group.classList.contains("hidden")) hasilLab[field] = document.getElementById(field).value || "-";
+        });
+        const { hemogoblin, hematokrit, eritrosit } = hasilLab;
+        const hb = parseFloat(hemogoblin), ht = parseFloat(hematokrit), er = parseFloat(eritrosit);
+        if (!isNaN(ht) && !isNaN(er) && er > 0) hasilLab.MCV = (ht * 10 / er).toFixed(2);
+        if (!isNaN(hb) && !isNaN(er) && er > 0) hasilLab.MCH = (hb * 10 / er).toFixed(2);
+        if (!isNaN(hb) && !isNaN(ht) && ht > 0) hasilLab.MCHC = (hb * 100 / ht).toFixed(2);
+        allPatients[pasienIndex].hasilLab = hasilLab;
+        saveAllPatients(allPatients);
+        alert("Hasil lab berhasil diperbarui!");
+        updateView();
+        resetForm();
     }
+
+    function handleEditClick(id) {
+        resetForm();
+        const allPatients = getAllPatients();
+        const pasien = allPatients.find(p => p.id === id);
+        if (!pasien) return alert("Data pasien tidak ditemukan!");
+        DOM.pasienSelect.value = id;
+        DOM.inputHeader.scrollIntoView({ behavior: 'smooth' });
+        if (pasien.hasilLab) {
+            for (const key in pasien.hasilLab) {
+                if (pasien.hasilLab.hasOwnProperty(key)) {
+                    const inputEl = document.getElementById(key), groupEl = document.getElementById(`${key}Group`), checkboxEl = document.querySelector(`input[onchange*="${key}Group"]`);
+                    if (inputEl && groupEl && checkboxEl) {
+                        inputEl.value = pasien.hasilLab[key];
+                        groupEl.classList.remove('hidden');
+                        checkboxEl.checked = true;
+                    }
+                }
+            }
+        }
+        toggleSaveButton();
+        alert(`Mode Edit untuk pasien "${pasien.nama}".\nData sebelumnya telah dimuat.`);
+    }
+
+    function printPasien(id) {
+        window.open(`print.html?id=${id}`, "_blank");
+    }
+
+    function initializeEventListeners() {
+        DOM.searchButton.addEventListener('click', updateView);
+        DOM.searchInput.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') updateView();
+        });
+        DOM.saveBtn.addEventListener('click', handleSaveLabData);
+    }
+
+    function main() {
+        loadPasienDropdown();
+        initializeEventListeners();
+        updateView();
+    }
+
+    document.addEventListener('DOMContentLoaded', main);
   </script>
 </body>
 </html>
