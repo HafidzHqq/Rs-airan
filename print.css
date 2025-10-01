@@ -27,11 +27,12 @@ body {
 }
 
 .print-header-container .logo {
-  width: 80px;
+  width: 100px;
 }
 
 .print-header-container .logo-rs {
-  width: 100px;
+  width: 150px;
+  height: auto;
 }
 
 .print-header-container .logo img {
@@ -108,18 +109,22 @@ body {
   }
 }
 
+/* [PERUBAHAN] Teks header diatur menjadi tengah */
 #tableHasil th {
   background-color: #005A9C;
   color: #FFFFFF;
+  text-align: center; /* Ditambahkan */
 }
 
-/* === [BARU] Style untuk baris hasil abnormal === */
+/* === Blok CSS sebelumnya untuk sel data DIHAPUS === */
+
+
+/* Style untuk baris hasil abnormal */
 #tableHasil tr.abnormal td {
     background-color: #F8D7DA !important; /* Latar belakang merah muda */
     color: #721C24 !important; /* Teks merah tua */
     font-weight: bold; /* Teks tebal */
 }
-/* ============================================== */
 
 /* Penanggung Jawab */
 #penanggungJawab {

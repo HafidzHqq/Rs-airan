@@ -31,7 +31,7 @@
 body {
   font-family: 'Lato', sans-serif;
   margin: 0;
-  padding: 40px 20px;
+  padding: 0px 0px;
   /* [MEWAH] Latar belakang dengan tekstur garis halus */
   background-color: var(--background-cream);
   background-image: repeating-linear-gradient(
@@ -230,6 +230,11 @@ tbody tr:hover {
   color: #ddd;
   text-align: center;
   padding: 2rem 1rem;
+
+  /* Tambahan biar full */
+  width: 100%;
+  left: 0;
+  right: 0;
 }
 
 .footer h4 {

@@ -25,31 +25,39 @@
     <h1>Input Data Pasien</h1>
     <label for="nama">Nama:</label>
     <input type="text" id="nama" required>
+
     <label for="umur">Umur:</label>
     <input type="number" id="umur" required>
+
     <label for="jenis_kelamin">Jenis Kelamin:</label>
     <select class="form-select" id="jenis_kelamin" required>
       <option selected value="">--- Pilih Jenis Kelamin ---</option>
       <option value="P">Perempuan</option>
       <option value="L">Laki-laki</option>
     </select>
+
     <label for="tanggal">Tanggal Periksa:</label>
     <input type="date" id="tanggal" required>
+
     <label for="alamat">Alamat:</label>
     <input type="text" id="alamat" required>
+
     <label for="diagnosa">Diagnosa:</label>
     <input type="text" id="diagnosa" required>
+
     <label for="dokter_pengirim">Dokter Pengirim:</label>
-    <select class="form-select" id="dokter_pengirim" required>
-        <option selected value="">--- Pilih Dokter ---</option>
+    <input type="text" id="dokter_pengirim" required>
+
+    <label for="penanggung_jawab">Penanggung Jawab Lab:</label>
+    <select class="form-select" id="penanggung_jawab" required>
+        <option selected value="">--- Pilih Penanggung Jawab ---</option>
         <option value="dr. Siti Wandira, Sp.OG">dr. Siti Wandira, Sp.OG (Kebidanan & Kandungan)</option>
         <option value="dr. Ahmad Assegaf, Sp.A">dr. Ahmad Assegaf, Sp.A (Anak)</option>
         <option value="dr. Dwi Purnama, Sp.JP(K)">dr. Dwi Purnama, Sp.JP(K) (Jantung)</option>
         <option value="dr. Rachel Maryam, Sp.PD">dr. Rachel Maryam, Sp.PD (Penyakit Dalam)</option>
         <option value="dr. Hafidz Ahmad, Sp.OT">dr. Hafidz Ahmad, Sp.OT (Ortopedi)</option>
     </select>
-    <label for="penanggung_jawab">Penanggung Jawab Lab:</label>
-    <input type="text" id="penanggung_jawab" required>
+
     <button id="submitBtn">Simpan Data</button>
   </div>
 
@@ -60,7 +68,10 @@
             <input type="search" id="searchInput" placeholder="Cari nama pasien...">
             <button id="searchButton">Cari</button>
         </div>
-          <div id="studentList">
+    </div>
+  </div>
+
+  <div id="studentList">
     <table>
       <thead>
         <tr>
@@ -78,10 +89,6 @@
       <tbody id="pasienList"></tbody>
     </table>
   </div>
-    </div>
-  </div>
-
-
 
   <script>
     let dataPasien = null;
