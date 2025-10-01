@@ -62,6 +62,10 @@ body {
 /* Tampilan Navbar Saat halaman di-scroll */
 .navigation-bar.scrolled {
   position: fixed;
+  padding-left: 30px;
+  border-bottom: 3px solid var(--border-light); /* underline */
+  justify-content: flex-start;  /* semua isi ditarik ke kiri */
+  gap: 1100px; /* spasi antara logo & menu */
   top: 0;
   left: 0;
   width: 100%;
@@ -71,8 +75,8 @@ body {
   background-color: var(--background-cream);
   border-bottom: 1px solid var(--border-light);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  justify-content: space-between;
   padding: 15px 40px;
+
 }
 
 /* Logo di dalam Navbar (Awalnya disembunyikan) */
@@ -140,6 +144,7 @@ body {
 .navigation-bar ul li a:hover::after {
   width: 100%;
 }
+
 
 /* --- Kontainer Form & Judul Tabel --- */
 .form, .patient-data-container { background-color: #FFFFFF; padding: 50px; border-radius: 16px; box-shadow: 0 10px 30px var(--shadow-color); max-width: 960px; margin: 40px auto; border: 1px solid var(--border-light); }
