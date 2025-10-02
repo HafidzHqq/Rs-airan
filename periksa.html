@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pilih Pemeriksaan Lab - RS Imanuel</title>
   <link rel="stylesheet" href="periksa.css">
-  <style>
-    th.sortable { cursor: pointer; }
-    th.sortable:hover { color: #16a085; }
-  </style>
 </head>
 <body>
 
@@ -72,7 +68,7 @@
         <thead>
           <tr>
             <th>Nama</th>
-            <th class="sortable" id="sortTanggal">Tanggal Periksa ⇵</th>
+            <th>Tanggal Periksa</th>
             <th>Diagnosa</th>
             <th>Penanggung Jawab</th>
             <th>Aksi</th>
@@ -84,8 +80,6 @@
   </div>
 
   <script>
-    let currentSortOrder = "desc"; // default terbaru di atas
-
     function loadPasienDropdown(){
       const pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
       const select=document.getElementById('pasienSelect');
@@ -151,14 +145,6 @@
         tbody.innerHTML='<tr><td colspan="5" style="text-align:center;">Belum ada data pasien.</td></tr>';
         return;
       }
-
-      // urutkan berdasarkan tanggal
-      pasienList.sort((a, b)=>{
-        const tA = new Date(a.tanggal);
-        const tB = new Date(b.tanggal);
-        return currentSortOrder === "asc" ? tA - tB : tB - tA;
-      });
-
       pasienList.forEach(p=>{
         const row=document.createElement("tr");
         row.innerHTML=`
@@ -180,6 +166,16 @@
         row.style.display=text.includes(input)?"":"none";
       });
     }
+
+    // [PERUBAHAN] Fungsi untuk handle scroll navbar
+    function handleNavbarScroll() {
+      const navbar = document.querySelector(".navigation-bar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    }
     
     document.addEventListener('DOMContentLoaded',()=>{
       loadPasienDropdown();
@@ -194,11 +190,8 @@
           }
       });
 
-      // event klik header tanggal
-      document.getElementById("sortTanggal").addEventListener("click", ()=>{
-        currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
-        tampilkanRiwayat();
-      });
+      // [PERUBAHAN] Menambahkan event listener untuk scroll
+      window.addEventListener("scroll", handleNavbarScroll);
     });
   </script>
 </body>
