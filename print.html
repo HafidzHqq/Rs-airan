@@ -48,74 +48,66 @@
       MCHC: { name: "MCHC", unit: "g/dL", normal: "32-36" },
       sgot: { name: "SGOT (AST)", unit: "U/L", normal: "5-40" },
       sgpt: { name: "SGPT (ALT)", unit: "U/L", normal: "7-56" },
-      bilirubin: { name: "Bilirubin Total", unit: "mg/dL", normal: "Negatif" },
+      bilirubin: { name: "Bilirubin Total", unit: "mg/dL", normal: "Negatif" }, 
       ureum: { name: "Ureum", unit: "mg/dL", normal: "L: 8-24; P: 6-21" },
       creatinine: { name: "Creatinine", unit: "mg/dL", normal: "L: 0,6-1,2; P: 0,5-1,1" },
-      HbsAG: { name: "HbsAG", unit: "", normal: "Non-Reaktif" },
+      HbsAG: { name: "HbsAG", unit: "", normal: "Negatif" },  
       antiHbs: { name: "Anti HBs", unit: "mIU/mL", normal: "> 10-12" },
       antiHcv: { name: "Anti HCV", unit: "", normal: "Negatif" },
       urine: { name: "Urine Lengkap", unit: "", normal: "Lihat lampiran/detail" }
     };
 
     /**
-     * [PERBAIKAN] Fungsi untuk memeriksa hasil lab dengan logika yang lebih akurat.
+     * Fungsi cek abnormal (pakai logika Negatif/Positif + angka/rentang)
      */
     function isAbnormal(value, normalRange, gender) {
-        if (value === null || value === undefined || value === '' || value === '-') return false;
+        if (!value || value === '-' || value === null) return false;
         
-        // Fungsi helper untuk membersihkan dan mengonversi string angka
         const cleanAndParse = (str) => parseFloat(str.toString().replace(/\./g, '').replace(/,/g, '.'));
 
-        let numericValue;
-        const valueStr = value.toString().trim();
-        
+        let valueStr = value.toString().trim().toLowerCase();
+        let rangeStr = normalRange.trim().toLowerCase();
+
+        // 🔹 Cek teks Negatif/Positif
         if (isNaN(cleanAndParse(valueStr))) {
-            numericValue = valueStr.toLowerCase();
-        } else {
-            numericValue = cleanAndParse(valueStr);
+            if (rangeStr === "negatif") {
+                return !(valueStr.includes("negatif"));
+            }
+            if (rangeStr === "positif") {
+                return !(valueStr.includes("positif"));
+            }
+            return false;
         }
 
-        let range = normalRange.trim();
+        // 🔹 Kalau numeric
+        let numericValue = cleanAndParse(valueStr);
 
-        // 1. Penanganan rentang berbasis gender
-        if (range.includes("L:") && range.includes("P:")) {
-            const parts = range.split(';');
-            const genderPart = gender === 'L' ? parts[0] : parts[1];
-            if (genderPart) {
-                range = genderPart.split(':')[1].trim();
-            }
-        }
-        
-        // 2. Penanganan nilai teks
-        if (range.toLowerCase() === 'non-reaktif' || range.toLowerCase() === 'negatif') {
-            return numericValue !== range.toLowerCase();
+        // Rentang berdasarkan gender
+        if (rangeStr.includes("l:") && rangeStr.includes("p:")) {
+            const parts = rangeStr.split(';');
+            rangeStr = gender === 'L' ? parts[0].split(':')[1].trim() : parts[1].split(':')[1].trim();
         }
 
-        // 3. Penanganan '<'
-        if (range.startsWith('<')) {
-            const max = cleanAndParse(range.replace('<', ''));
-            if (!isNaN(max) && typeof numericValue === 'number') {
-                return numericValue >= max;
-            }
+        // < batas maksimum
+        if (rangeStr.startsWith('<')) {
+            const max = cleanAndParse(rangeStr.replace('<', ''));
+            return numericValue >= max;
         }
-        // 4. Penanganan '>'
-        else if (range.startsWith('>')) {
-            const min = cleanAndParse(range.replace('>', '').split('-')[0]);
-            if (!isNaN(min) && typeof numericValue === 'number') {
-                return numericValue < min;
-            }
+
+        // > batas minimum
+        if (rangeStr.startsWith('>')) {
+            const min = cleanAndParse(rangeStr.replace('>', ''));
+            return numericValue <= min;
         }
-        // 5. Penanganan rentang '-'
-        else if (range.includes('-')) {
-            const [min, max] = range.split('-').map(val => cleanAndParse(val));
-            if (!isNaN(min) && !isNaN(max) && typeof numericValue === 'number') {
-                return numericValue < min || numericValue > max;
-            }
+
+        // Rentang angka dengan "-"
+        if (rangeStr.includes('-')) {
+            const [min, max] = rangeStr.split('-').map(val => cleanAndParse(val));
+            return numericValue < min || numericValue > max;
         }
 
         return false;
     }
-
 
     const urlParams = new URLSearchParams(window.location.search);
     const pasienId = parseInt(urlParams.get("id"));
