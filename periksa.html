@@ -22,32 +22,40 @@
     </ul>
   </div>
 
+  <div class="navbar-placeholder"></div>
+
   <div class="container">
     <h1 class="page-title">Pilih Pemeriksaan Lab</h1>
+    
     <div class="main-controls">
       <label for="pasienSelect">Langkah 1: Pilih Pasien</label>
-      <select id="pasienSelect">
-        <option value="">--- Pilih Pasien ---</option>
-      </select>
+      
+      <div class="controls-wrapper">
+        <div class="search-container">
+          <input type="text" id="pasienSearch" placeholder="Cari nama pasien...">
+          <button id="pasienSearchButton">Cari</button>
+        </div>
+        <select id="pasienSelect" class="form-select-filter">
+          <option value="">-- Pilih dari daftar hasil --</option>
+        </select>
+      </div>
     </div>
+
     <h3>Langkah 2: Pilih Jenis Pemeriksaan</h3>
     <div id="pemeriksaanChecklist">
-        <label><input type="checkbox" value="Hemoglobin"> Hemoglobin</label>
-        <label><input type="checkbox" value="Hematokrit"> Hematokrit</label>
-        <label><input type="checkbox" value="Leukosit"> Leukosit</label>
-        <label><input type="checkbox" value="Eritrosit"> Eritrosit</label>
-        <label><input type="checkbox" value="Trombosit"> Trombosit</label>
-        <label><input type="checkbox" value="LED"> LED</label>
-        <label><input type="checkbox" value="Retikulosit"> Retikulosit</label>
-        <label><input type="checkbox" value="SGOT (AST)"> SGOT (AST)</label>
-        <label><input type="checkbox" value="SGPT (ALT)"> SGPT (ALT)</label>
-        <label><input type="checkbox" value="Bilirubin Total"> Bilirubin Total</label>
-        <label><input type="checkbox" value="Ureum"> Ureum</label>
-        <label><input type="checkbox" value="Creatinine"> Creatinine</label>
-        <label><input type="checkbox" value="HbsAG"> HbsAG</label>
-        <label><input type="checkbox" value="Anti HBs"> Anti HBs</label>
-        <label><input type="checkbox" value="Anti HCV"> Anti HCV</label>
-        <label><input type="checkbox" value="Urine Lengkap"> Urine Lengkap</label>
+        <label><input type="checkbox" value="hemoglobin"> Hemoglobin</label>
+        <label><input type="checkbox" value="hematokrit"> Hematokrit</label>
+        <label><input type="checkbox" value="leukosit"> Leukosit</label>
+        <label><input type="checkbox" value="eritrosit"> Eritrosit</label>
+        <label><input type="checkbox" value="trombosit"> Trombosit</label>
+        <label><input type="checkbox" value="led"> LED</label>
+        <label><input type="checkbox" value="retikulosit"> Retikulosit</label>
+        <label><input type="checkbox" value="sgot"> SGOT (AST)</label>
+        <label><input type="checkbox" value="sgpt"> SGPT (ALT)</label>
+        <label><input type="checkbox" value="ureum"> Ureum</label>
+        <label><input type="checkbox" value="creatinine"> Creatinine</label>
+        <label><input type="checkbox" value="hbsag"> HbsAG</label>
+        <label><input type="checkbox" value="antiHcv"> Anti HCV</label>
     </div>
     <div class="button-group">
       <button id="simpanBtn">💾 Simpan Pilihan</button>
@@ -57,9 +65,9 @@
 
   <div class="container">
     <div class="table-header">
-      <h2>Riwayat Pemeriksaan Pasien</h2>
+      <h2>Status Pilihan Tes Pasien</h2>
       <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Cari berdasarkan nama, diagnosa...">
+        <input type="search" id="searchInput" placeholder="Cari berdasarkan nama pasien...">
         <button id="searchButton">Cari</button>
       </div>
     </div>
@@ -68,9 +76,13 @@
         <thead>
           <tr>
             <th>Nama</th>
-            <th>Tanggal Periksa</th>
+            <th>Umur</th>
+            <th>J. Kelamin</th>
+            <th>Tgl Periksa</th>
             <th>Diagnosa</th>
-            <th>Penanggung Jawab</th>
+            <th>Dokter Pengirim</th>
+            <th>P. Jawab Lab</th>
+            <th>Pemeriksaan Dipilih</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -80,117 +92,156 @@
   </div>
 
   <script>
-    function loadPasienDropdown(){
+    let pasienListCache = [];
+
+    function loadPasienDropdown(filter=""){
       const pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
+      pasienListCache = pasienList;
+      
       const select=document.getElementById('pasienSelect');
-      select.innerHTML='<option value="">--- Pilih Pasien ---</option>';
-      pasienList.forEach(p=>{
-        const opt=document.createElement("option");
-        opt.value=p.id;
-        opt.textContent=`${p.nama} (ID: ${p.id})`;
-        select.appendChild(opt);
+      const selectedValue = select.value;
+      select.innerHTML='<option value="">-- Pilih Pasien --</option>';
+      
+      pasienList
+        .filter(p => p.nama.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(p=>{
+          const opt=document.createElement("option");
+          opt.value=p.id;
+          opt.textContent=`${p.nama} (ID: ${p.id})`;
+          select.appendChild(opt);
       });
+      select.value = selectedValue;
+    }
+
+    function updateChecklistForPatient() {
+        const pasienId = document.getElementById('pasienSelect').value;
+        const allCheckboxes = document.querySelectorAll('#pemeriksaanChecklist input[type="checkbox"]');
+
+        if (!pasienId) {
+            allCheckboxes.forEach(checkbox => checkbox.checked = false);
+            return;
+        }
+
+        const pasien = pasienListCache.find(p => p.id == pasienId);
+        const tesDipilih = (pasien && pasien.tesDipilih) ? pasien.tesDipilih : [];
+
+        allCheckboxes.forEach(checkbox => {
+            checkbox.checked = tesDipilih.includes(checkbox.value);
+        });
     }
 
     function getSelectedTests(){
       return Array.from(document.querySelectorAll('#pemeriksaanChecklist input:checked')).map(c=>c.value);
     }
-    function clearChecklist(){
-      document.querySelectorAll('#pemeriksaanChecklist input:checked').forEach(c=>c.checked=false);
-    }
 
     function simpanPilihan(){
       const pasienId=document.getElementById('pasienSelect').value;
       if(!pasienId)return alert("Pilih pasien dulu!");
+      
       const tes=getSelectedTests();
-      if(tes.length===0)return alert("Pilih minimal 1 pemeriksaan!");
+      
       let pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
       const idx=pasienList.findIndex(p=>p.id==pasienId);
       if(idx!==-1){
         pasienList[idx].tesDipilih=tes;
         localStorage.setItem('pasienList',JSON.stringify(pasienList));
         alert("Pilihan pemeriksaan berhasil disimpan!");
-        tampilkanRiwayat();
-        clearChecklist();
+        filterTableRiwayat();
       }
     }
 
     function cetakForm(pasienId){
-      const pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
-      const pasien=pasienList.find(p=>p.id==pasienId);
+      const pasien = (JSON.parse(localStorage.getItem('pasienList')) || []).find(p => p.id == pasienId);
       if(!pasien||!pasien.tesDipilih||pasien.tesDipilih.length===0){
-        return alert("Pasien ini belum punya pemeriksaan yang disimpan!");
+        return alert("Pasien ini belum punya pemeriksaan yang disimpan untuk dicetak!");
       }
-      localStorage.setItem('pemeriksaanUntukDiinput',JSON.stringify({pasienId:pasienId,tests:pasien.tesDipilih}));
+      localStorage.setItem('pemeriksaanUntukDiinput',JSON.stringify({pasienId: parseInt(pasienId), tests:pasien.tesDipilih}));
       window.open("PeriksaPrint.html","_blank");
     }
 
     function lanjutkanInput(){
       const pasienId=document.getElementById('pasienSelect').value;
       if(!pasienId)return alert("Pilih pasien dulu!");
-      const pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
-      const pasien=pasienList.find(p=>p.id==pasienId);
+      
+      const pasien= (JSON.parse(localStorage.getItem('pasienList')) || []).find(p => p.id == pasienId);
       if(!pasien||!pasien.tesDipilih||pasien.tesDipilih.length===0){
         return alert("Simpan dulu pilihan pemeriksaan sebelum lanjut!");
       }
-      localStorage.setItem('pemeriksaanUntukDiinput',JSON.stringify({pasienId:pasienId,tests:pasien.tesDipilih}));
+      localStorage.setItem('pemeriksaanUntukDiinput',JSON.stringify({pasienId: parseInt(pasienId), tests:pasien.tesDipilih}));
       window.location.href="data_hasil_lab.html";
     }
 
-    function tampilkanRiwayat(){
-      const pasienList=JSON.parse(localStorage.getItem('pasienList'))||[];
+    function tampilkanRiwayat(dataToDisplay){
       const tbody=document.getElementById("tabelPeriksaBody");
       tbody.innerHTML="";
-      if(pasienList.length===0){
-        tbody.innerHTML='<tr><td colspan="5" style="text-align:center;">Belum ada data pasien.</td></tr>';
+
+      if(dataToDisplay.length===0){
+        tbody.innerHTML='<tr><td colspan="9" style="text-align:center;">Data pasien tidak ditemukan.</td></tr>';
         return;
       }
-      pasienList.forEach(p=>{
+
+      dataToDisplay.forEach(p=>{
         const row=document.createElement("tr");
         row.innerHTML=`
           <td>${p.nama}</td>
+          <td>${p.umur || "-"}</td>
+          <td>${p.jekel === "L" ? "Laki-laki" : (p.jekel === "P" ? "Perempuan" : "-")}</td>
           <td>${p.tanggal || "-"}</td>
           <td>${p.diagnosa || "-"}</td>
+          <td>${p.dokter_pengirim || "-"}</td>
           <td>${p.penanggung_jawab || "-"}</td>
+          <td>${p.tesDipilih && p.tesDipilih.length > 0 ? p.tesDipilih.join(", ") : "-"}</td>
           <td><button onclick="cetakForm(${p.id})">🖨 Cetak</button></td>
         `;
         tbody.appendChild(row);
       });
     }
 
-    function filterTable(){
-      const input=document.getElementById("searchInput").value.toLowerCase();
-      const rows=document.querySelectorAll("#tabelPeriksa tbody tr");
-      rows.forEach(row=>{
-        const text=row.textContent.toLowerCase();
-        row.style.display=text.includes(input)?"":"none";
+    function filterTableRiwayat(){
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      const pasienList = JSON.parse(localStorage.getItem('pasienList')) || [];
+      pasienListCache = pasienList;
+      
+      const filteredData = pasienList.filter(pasien => {
+          return pasien.nama.toLowerCase().includes(searchTerm);
       });
+
+      tampilkanRiwayat(filteredData);
     }
 
-    // [PERUBAHAN] Fungsi untuk handle scroll navbar
     function handleNavbarScroll() {
       const navbar = document.querySelector(".navigation-bar");
-      if (window.scrollY > 50) {
-        navbar.classList.add("scrolled");
-      } else {
-        navbar.classList.remove("scrolled");
-      }
+      if (window.scrollY > 50) navbar.classList.add("scrolled");
+      else navbar.classList.remove("scrolled");
     }
     
     document.addEventListener('DOMContentLoaded',()=>{
       loadPasienDropdown();
-      tampilkanRiwayat();
+      filterTableRiwayat();
 
+      document.getElementById('pasienSelect').addEventListener('change', updateChecklistForPatient);
       document.getElementById('simpanBtn').addEventListener('click',simpanPilihan);
       document.getElementById('lanjutkanBtn').addEventListener('click',lanjutkanInput);
-      document.getElementById("searchButton").addEventListener("click", filterTable);
+      
+      document.getElementById("searchButton").addEventListener("click", filterTableRiwayat);
       document.getElementById("searchInput").addEventListener("keyup", function(event) {
-          if (event.key === "Enter") {
-              filterTable();
-          }
+          if (event.key === "Enter") filterTableRiwayat();
       });
 
-      // [PERUBAHAN] Menambahkan event listener untuk scroll
+      const pasienSearchInput = document.getElementById("pasienSearch");
+      const pasienSearchButton = document.getElementById("pasienSearchButton");
+
+      function filterPasienDropdown() {
+          loadPasienDropdown(pasienSearchInput.value);
+      }
+
+      pasienSearchButton.addEventListener("click", filterPasienDropdown);
+      pasienSearchInput.addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            filterPasienDropdown();
+        }
+      });
+
       window.addEventListener("scroll", handleNavbarScroll);
     });
   </script>

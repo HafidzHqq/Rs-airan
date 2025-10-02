@@ -176,7 +176,7 @@ body {
 #submitBtn:hover { background-color: var(--darker-green); transform: translateY(-2px); }
 
 /* --- Tabel Data Pasien --- */
-#studentList { overflow-x: auto; max-width: 960px; margin: 40px auto; }
+#studentList { overflow-x: auto; max-width: 1060px; margin: 40px auto; }
 #studentList table { width: 100%; border-collapse: collapse; }
 #studentList th, #studentList td { padding: 18px 15px; text-align: left; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
 #studentList thead th { background-color: var(--deep-green); color: var(--text-ivory); font-weight: 700; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px; }

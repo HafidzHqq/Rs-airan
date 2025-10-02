@@ -36,76 +36,51 @@
 
   <script>
     const labTestDetails = {
-      hemogoblin: { name: "Hemoglobin", unit: "g/dl", normal: "L: 13-17; P: 12-16" },
-      hematokrit: { name: "Hematokrit", unit: "%", normal: "L: 42-54; P: 38-46" },
-      leukosit: { name: "Leukosit", unit: "/µL", normal: "4.000-10.000" },
-      eritrosit: { name: "Eritrosit", unit: "juta/µL", normal: "L: 4,5-6,5; P: 4,0-5,0" },
-      trombosit: { name: "Trombosit", unit: "/µL", normal: "150.000-450.000" },
-      led: { name: "LED", unit: "mm/jam", normal: "L: 0-15; P: 0-20" },
-      retikulosit: { name: "Retikulosit", unit: "%", normal: "0,2-2,0" },
-      MCV: { name: "MCV", unit: "fL", normal: "80-100" },
-      MCH: { name: "MCH", unit: "pg", normal: "27-33" },
-      MCHC: { name: "MCHC", unit: "g/dL", normal: "32-36" },
-      sgot: { name: "SGOT (AST)", unit: "U/L", normal: "5-40" },
-      sgpt: { name: "SGPT (ALT)", unit: "U/L", normal: "7-56" },
-      bilirubin: { name: "Bilirubin Total", unit: "mg/dL", normal: "Negatif" }, 
-      ureum: { name: "Ureum", unit: "mg/dL", normal: "L: 8-24; P: 6-21" },
-      creatinine: { name: "Creatinine", unit: "mg/dL", normal: "L: 0,6-1,2; P: 0,5-1,1" },
-      HbsAG: { name: "HbsAG", unit: "", normal: "Negatif" },  
-      antiHbs: { name: "Anti HBs", unit: "mIU/mL", normal: "> 10-12" },
-      antiHcv: { name: "Anti HCV", unit: "", normal: "Negatif" },
-      urine: { name: "Urine Lengkap", unit: "", normal: "Lihat lampiran/detail" }
+        hemoglobin: { name: "Hemoglobin", unit: "g/dL", normal: "L: 13-17; P: 12-16" },
+        hematokrit: { name: "Hematokrit", unit: "%", normal: "L: 42-54; P: 38-46" },
+        leukosit: { name: "Leukosit", unit: "/µL", normal: "4000-10000" },
+        eritrosit: { name: "Eritrosit", unit: "juta/µL", normal: "L: 4.5-6.5; P: 4.0-5.0" },
+        trombosit: { name: "Trombosit", unit: "ribu/µL", normal: "150-450" },
+        mcv: { name: "MCV", unit: "fL", normal: "80-100" },
+        mch: { name: "MCH", unit: "pg", normal: "27-33" },
+        mchc: { name: "MCHC", unit: "g/dL", normal: "32-36" },
+        led: { name: "Laju Endap Darah (LED)", unit: "mm/jam", normal: "L: 0-15; P: 0-20" },
+        retikulosit: { name: "Retikulosit", unit: "%", normal: "0.2-2.0" },
+        sgot: { name: "SGOT (AST)", unit: "U/L", normal: "5-40" },
+        sgpt: { name: "SGPT (ALT)", unit: "U/L", normal: "7-56" },
+        ureum: { name: "Ureum", unit: "mg/dL", normal: "L: 8-24; P: 6-21" },
+        creatinine: { name: "Kreatinin", unit: "mg/dL", normal: "L: 0.6-1.2; P: 0.5-1.1" },
+        antiHcv: { name: "Anti-HCV", unit: "-", normal: "Negatif" },
+        hbsag: { name: "HBsAg", unit: "-", normal: "Negatif" }
     };
 
-    /**
-     * Fungsi cek abnormal (pakai logika Negatif/Positif + angka/rentang)
-     */
     function isAbnormal(value, normalRange, gender) {
-        if (!value || value === '-' || value === null) return false;
+        if (value === null || value === undefined || value.toString().trim() === '') return false;
         
-        const cleanAndParse = (str) => parseFloat(str.toString().replace(/\./g, '').replace(/,/g, '.'));
-
         let valueStr = value.toString().trim().toLowerCase();
         let rangeStr = normalRange.trim().toLowerCase();
 
-        // 🔹 Cek teks Negatif/Positif
-        if (isNaN(cleanAndParse(valueStr))) {
-            if (rangeStr === "negatif") {
-                return !(valueStr.includes("negatif"));
-            }
-            if (rangeStr === "positif") {
-                return !(valueStr.includes("positif"));
-            }
-            return false;
+        if (rangeStr === "negatif") {
+            return valueStr !== "negatif";
         }
 
-        // 🔹 Kalau numeric
-        let numericValue = cleanAndParse(valueStr);
+        let numericValue = parseFloat(valueStr.replace(/,/g, '.'));
+        if (isNaN(numericValue)) return false;
 
-        // Rentang berdasarkan gender
         if (rangeStr.includes("l:") && rangeStr.includes("p:")) {
             const parts = rangeStr.split(';');
-            rangeStr = gender === 'L' ? parts[0].split(':')[1].trim() : parts[1].split(':')[1].trim();
+            rangeStr = gender === 'L' ? (parts[0].split(':')[1] || "").trim() : (parts[1].split(':')[1] || "").trim();
         }
 
-        // < batas maksimum
-        if (rangeStr.startsWith('<')) {
-            const max = cleanAndParse(rangeStr.replace('<', ''));
-            return numericValue >= max;
-        }
-
-        // > batas minimum
-        if (rangeStr.startsWith('>')) {
-            const min = cleanAndParse(rangeStr.replace('>', ''));
-            return numericValue <= min;
-        }
-
-        // Rentang angka dengan "-"
         if (rangeStr.includes('-')) {
-            const [min, max] = rangeStr.split('-').map(val => cleanAndParse(val));
+            const rangeParts = rangeStr.replace(/,/g, '.').split('-');
+            const min = parseFloat(rangeParts[0].trim());
+            const max = parseFloat(rangeParts[1].trim());
+
+            if (isNaN(min) || isNaN(max)) return false;
             return numericValue < min || numericValue > max;
         }
-
+        
         return false;
     }
 
@@ -138,17 +113,19 @@
       let tableHTML = `<thead><tr><th>Pemeriksaan</th><th>Hasil</th><th>Satuan</th><th>Nilai Normal</th></tr></thead><tbody>`;
 
       if (pasien.hasilLab && Object.keys(pasien.hasilLab).length > 0) {
-        for (const key in pasien.hasilLab) {
-          if (labTestDetails[key]) {
+        const sortedKeys = Object.keys(labTestDetails).filter(key => pasien.hasilLab[key] !== undefined);
+
+        sortedKeys.forEach(key => {
             const details = labTestDetails[key];
             const value = pasien.hasilLab[key];
             
-            const isRowAbnormal = isAbnormal(value, details.normal, pasien.jekel);
-            const rowClass = isRowAbnormal ? 'class="abnormal"' : '';
+            if (details) {
+                const isRowAbnormal = isAbnormal(value, details.normal, pasien.jekel);
+                const rowClass = isRowAbnormal ? 'class="abnormal"' : '';
+                tableHTML += `<tr ${rowClass}><td>${details.name}</td><td>${value}</td><td>${details.unit}</td><td>${details.normal}</td></tr>`;
+            }
+        });
 
-            tableHTML += `<tr ${rowClass}><td>${details.name}</td><td>${value}</td><td>${details.unit}</td><td>${details.normal}</td></tr>`;
-          }
-        }
       } else {
         tableHTML += '<tr><td colspan="4" style="text-align:center;">Belum ada data hasil lab.</td></tr>';
       }
@@ -157,8 +134,7 @@
 
       document.getElementById("penanggungJawab").innerHTML = `
         <div><u>Penanggung Jawab</u></div><br><br><br>
-        <div><u>${pasien.penanggung_jawab || "_________________"}</u></div>
-        <div>NIP. 11010001156432</div>`;
+        <div><u>${pasien.penanggung_jawab || "_________________"}</u></div>`;
       
       setTimeout(() => {
         window.print();
