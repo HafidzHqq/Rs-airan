@@ -35,7 +35,7 @@ body {
 }
 
 /* --- Header --- */
-.header { text-align: center; padding-bottom: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--border-light); }
+.header { text-align: center; padding-bottom: 20px; padding-top: 37px;margin-bottom: 30px; border-bottom: 1px solid var(--border-light); }
 .header h1 { font-family: 'Playfair Display', serif; color: var(--deep-green); font-size: 3em; margin: 0; }
 
 /* --- [MODIFIKASI] Efek Navbar Sticky dengan Tampilan Awal Sesuai Permintaan --- */
@@ -43,71 +43,85 @@ body {
 /* Tampilan Awal Navbar (Sesuai yang Anda inginkan) */
 /* --- [MODIFIKASI] Tampilan Awal Navbar Dibuat Lebih Ramping --- */
 
+/* =======================================================
+   Navbar Navigation Bar - Versi Profesional
+   ======================================================= */
+
+/* --- 1. Gaya Dasar Navbar (Saat di Atas) --- */
 .navigation-bar {
   display: flex;
-  height: 37px;
   justify-content: center;
   align-items: center;
-  background-color: var(--deep-green);
-  padding: 12px 0; /* Tinggi dikurangi dari 15px menjadi 12px */
-  border-radius: 12px;
-  max-width: 1060px; /* Lebar ini sudah sama dengan kontainer di bawahnya */
+  
+  /* [PERBAIKAN] 'height' dihapus, tinggi diatur oleh padding agar lebih fleksibel */
   margin: 0 auto 30px auto;
+  height: 60px;
+  max-width: 1060px;
+  background-color: var(--deep-green);
+  border-radius: 12px;
   box-shadow: 0 4px 15px var(--shadow-color);
-  transition: all 0.4s ease-in-out;
+  
   position: static;
   z-index: 1000;
+  transition: all 0.4s ease-in-out;
 }
 
-/* Tampilan Navbar Saat halaman di-scroll */
+/* --- 2. Gaya Navbar Saat Halaman Di-scroll --- */
 .navigation-bar.scrolled {
   position: fixed;
-
   top: 0;
   left: 0;
+  
   width: 100%;
   max-width: 100%;
-  border-radius: 0;
+  padding: 15px 40px;
   margin: 0;
+  
   background-color: var(--background-cream);
   border-bottom: 1px solid var(--border-light);
+  border-radius: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  padding: 15px 40px;
-  border: var(--darker-green) solid 1px;
-  gap: 1090px; /* spasi antara logo & menu */
-    justify-content: flex-start;  /* semua isi ditarik ke kiri */
-
+  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+  
+  /* [PERBAIKAN PALING PENTING] 
+     'gap' dan 'justify-content: flex-start' diganti dengan 'space-between'.
+     Ini akan otomatis mendorong logo ke kiri dan menu ke kanan di semua ukuran layar. */
+  justify-content: space-between;
 }
 
-/* Logo di dalam Navbar (Awalnya disembunyikan) */
+/* --- 3. Logo di Dalam Navbar --- */
 .navbar-logo {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: 1.5rem;
   text-decoration: none;
-  transition: all 0.4s ease-in-out;
+  
   opacity: 0;
-  transform: translateX(-20px);
   max-width: 0;
-  overflow: hidden; /* Pastikan tidak memakan tempat saat tersembunyi */
+  overflow: hidden;
+  transform: translateX(-20px);
+  transition: all 0.4s ease-in-out;
 }
+
 .navigation-bar.scrolled .navbar-logo {
   color: var(--deep-green);
   opacity: 1;
-  transform: translateX(0);
   max-width: 200px;
+  transform: translateX(0);
 }
 
-/* Link Navigasi */
+/* --- 4. Link Menu Navigasi --- */
 .navigation-bar ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 .navigation-bar ul li {
   display: inline-block;
   margin: 0 25px;
 }
+
 .navigation-bar ul li a {
   color: var(--text-ivory);
   text-decoration: none;
@@ -118,12 +132,19 @@ body {
   transition: color 0.4s ease-in-out;
 }
 
-/* Warna link saat di-scroll */
 .navigation-bar.scrolled ul li a {
   color: var(--deep-green);
 }
 
-/* Efek hover garis bawah */
+/* --- 5. Efek Hover Garis Bawah --- */
+.navigation-bar ul li a:hover {
+  color: var(--gold-accent);
+}
+
+.navigation-bar.scrolled ul li a:hover {
+  color: var(--gold-accent); /* Pastikan warna hover tetap gold */
+}
+
 .navigation-bar ul li a::after {
   content: '';
   position: absolute;
@@ -135,16 +156,10 @@ body {
   background-color: var(--gold-accent);
   transition: width 0.3s ease;
 }
-.navigation-bar ul li a:hover {
-  color: var(--gold-accent);
-}
-.navigation-bar.scrolled ul li a:hover {
-    color: var(--gold-accent); /* Pastikan warna hover tetap gold */
-}
+
 .navigation-bar ul li a:hover::after {
   width: 100%;
 }
-
 
 /* --- Kontainer Form & Judul Tabel --- */
 .form, .patient-data-container { background-color: #FFFFFF; padding: 50px; border-radius: 16px; box-shadow: 0 10px 30px var(--shadow-color); max-width: 960px; margin: 40px auto; border: 1px solid var(--border-light); }

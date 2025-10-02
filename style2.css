@@ -17,8 +17,8 @@
   --border-medium: #BDBDBD;
   --shadow-color: rgba(0, 0, 0, 0.06);
   --row-tint: #F5F8F5;
+  --cancel-gray: #7f8c8d;
 }
-
 
 /* ==========================================================================
    Struktur Dasar & Global
@@ -27,14 +27,15 @@
 body {
   font-family: 'Lato', sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 0px 0px;
+  /* [MEWAH] Latar belakang dengan tekstur garis halus */
   background-color: var(--background-cream);
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
     transparent 10px,
-    rgba(0, 0, 0, 0.02) 10px,
-    rgba(0, 0, 0, 0.02) 11px
+    rgba(0, 0, 0, 0.2) 10px,
+    rgba(0, 0, 0, 0.2) 11px
   );
   color: var(--text-dark);
   line-height: 1.7;
@@ -44,13 +45,12 @@ body {
   display: none;
 }
 
-
 /* ==========================================================================
    Header & Navigasi
    ========================================================================== */
 .header {
   text-align: center;
-  padding: 40px 20px 20px 20px; /* Menambah padding atas */
+  padding: 40px 20px 20px 20px;
   margin-bottom: 30px;
   border-bottom: 1px solid var(--border-light);
 }
@@ -64,57 +64,78 @@ body {
 
 .navigation-bar {
   display: flex;
-  height: 37px;
   justify-content: center;
   align-items: center;
-  background-color: var(--deep-green);
-  padding: 12px 0;
-  border-radius: 12px;
-  max-width: 1060px;
+  
+  /* [PERBAIKAN] 'height' dihapus, tinggi diatur oleh padding agar lebih fleksibel */
   margin: 0 auto 30px auto;
+  height: 60px;
+  max-width: 960px;
+  background-color: var(--deep-green);
+  border-radius: 12px;
   box-shadow: 0 4px 15px var(--shadow-color);
-  transition: all 0.4s ease-in-out;
+  
   position: static;
   z-index: 1000;
+  transition: all 0.4s ease-in-out;
 }
 
-/* [PERBAIKAN] Tampilan Navbar Saat di-scroll, 'gap' diganti dengan 'justify-content' agar fleksibel */
+/* --- 2. Gaya Navbar Saat Halaman Di-scroll --- */
 .navigation-bar.scrolled {
   position: fixed;
   top: 0;
   left: 0;
+  
   width: 100%;
   max-width: 100%;
-  border-radius: 0;
+  padding: 15px 40px;
   margin: 0;
+  
   background-color: var(--background-cream);
   border-bottom: 1px solid var(--border-light);
+  border-radius: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  justify-content: space-between; /* Ini lebih baik daripada 'gap' */
-  padding: 15px 40px;
-  box-sizing: border-box; /* Memastikan padding tidak menambah lebar */
+  box-sizing: border-box; /* Pastikan padding tidak menambah lebar */
+  
+  /* [PERBAIKAN PALING PENTING] 
+     'gap' dan 'justify-content: flex-start' diganti dengan 'space-between'.
+     Ini akan otomatis mendorong logo ke kiri dan menu ke kanan di semua ukuran layar. */
+  justify-content: space-between;
 }
 
+/* --- 3. Logo di Dalam Navbar --- */
 .navbar-logo {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: 1.5rem;
   text-decoration: none;
-  transition: all 0.4s ease-in-out;
+  
   opacity: 0;
-  transform: translateX(-20px);
   max-width: 0;
   overflow: hidden;
+  transform: translateX(-20px);
+  transition: all 0.4s ease-in-out;
 }
+
 .navigation-bar.scrolled .navbar-logo {
   color: var(--deep-green);
   opacity: 1;
-  transform: translateX(0);
   max-width: 200px;
+  transform: translateX(0);
 }
 
-.navigation-bar ul { list-style: none; margin: 0; padding: 0; }
-.navigation-bar ul li { display: inline-block; margin: 0 25px; }
+/* --- 4. Link Menu Navigasi --- */
+.navigation-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation-bar ul li {
+  display: inline-block;
+  margin: 0 25px;
+}
+
 .navigation-bar ul li a {
   color: var(--text-ivory);
   text-decoration: none;
@@ -125,7 +146,18 @@ body {
   transition: color 0.4s ease-in-out;
 }
 
-.navigation-bar.scrolled ul li a { color: var(--deep-green); }
+.navigation-bar.scrolled ul li a {
+  color: var(--deep-green);
+}
+
+/* --- 5. Efek Hover Garis Bawah --- */
+.navigation-bar ul li a:hover {
+  color: var(--gold-accent);
+}
+
+.navigation-bar.scrolled ul li a:hover {
+  color: var(--gold-accent); /* Pastikan warna hover tetap gold */
+}
 
 .navigation-bar ul li a::after {
   content: '';
@@ -138,10 +170,10 @@ body {
   background-color: var(--gold-accent);
   transition: width 0.3s ease;
 }
-.navigation-bar ul li a:hover { color: var(--gold-accent); }
-.navigation-bar.scrolled ul li a:hover { color: var(--gold-accent); }
-.navigation-bar ul li a:hover::after { width: 100%; }
 
+.navigation-bar ul li a:hover::after {
+  width: 100%;
+}
 /* ==========================================================================
    Kontainer & Judul Halaman
    ========================================================================== */
@@ -149,7 +181,7 @@ body {
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
-  box-sizing: border-box; /* Penting untuk padding agar tidak merusak layout */
+  box-sizing: border-box;
 }
 
 .container {
@@ -171,7 +203,7 @@ body {
 .section-title { text-align: left; margin: 0; }
 
 /* ==========================================================================
-   Formulir Input Data Hasil Lab
+   Formulir Input
    ========================================================================== */
 .main-controls { margin-bottom: 30px; }
 .main-controls label { font-weight: 700; font-size: 1.1em; margin-right: 10px; }
@@ -189,19 +221,6 @@ body {
   border-color: var(--gold-accent);
   box-shadow: 0 0 0 3px rgba(192, 161, 94, 0.2);
 }
-
-#pemeriksaanList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-  padding: 20px;
-  background-color: var(--row-tint);
-  border-radius: 12px;
-  border: 1px solid var(--border-light);
-}
-#pemeriksaanList label { display: flex; align-items: center; cursor: pointer; font-size: 1em; }
-#pemeriksaanList input[type="checkbox"] { margin-right: 10px; width: 18px; height: 18px; accent-color: var(--deep-green); }
 
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; font-weight: 700; margin-bottom: 8px; }
@@ -221,10 +240,10 @@ body {
   box-shadow: 0 0 0 3px rgba(192, 161, 94, 0.2);
 }
 
-#saveBtn {
+/* --- Tombol Utama --- */
+#saveBtn, #cancelBtn {
   width: 100%;
   padding: 18px;
-  background-color: var(--deep-green);
   color: var(--text-ivory);
   border: none;
   border-radius: 8px;
@@ -234,7 +253,17 @@ body {
   margin-top: 20px;
   transition: background-color 0.3s, transform 0.2s;
 }
+
+#saveBtn { background-color: var(--deep-green); }
 #saveBtn:hover { background-color: var(--darker-green); transform: translateY(-2px); }
+
+/* [PERBAIKAN] Menambahkan style untuk tombol Batal */
+#cancelBtn {
+    background-color: var(--cancel-gray);
+    margin-top: 10px;
+}
+#cancelBtn:hover { background-color: #95a5a6; transform: translateY(-2px); }
+
 
 /* ==========================================================================
    Tabel Data & Fitur Pencarian
@@ -249,30 +278,6 @@ body {
   border: 1px solid var(--border-light);
   border-bottom: none;
 }
-.table-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-.search-container { width: 100%; max-width: 350px; display: flex; }
-#searchInput {
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid var(--border-medium);
-  border-right: none;
-  border-radius: 8px 0 0 8px;
-  font-size: 1em;
-  font-family: 'Lato', sans-serif;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
-}
-#searchInput:focus { outline: none; border-color: var(--gold-accent); box-shadow: 0 0 0 3px rgba(192, 161, 94, 0.2); z-index: 2; }
-#searchButton {
-  padding: 0 20px;
-  border: 1px solid var(--deep-green);
-  background-color: var(--deep-green);
-  color: var(--text-ivory);
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
-}
-#searchButton:hover { background-color: var(--darker-green); }
 
 #hasilLabTable {
   margin-top: 0;
@@ -285,30 +290,53 @@ body {
   box-shadow: 0 10px 30px var(--shadow-color);
   overflow-x: auto;
 }
+
 #hasilLabTable table { width: 100%; border-collapse: collapse; }
-#hasilLabTable th, #hasilLabTable td { padding: 18px 15px; text-align: left; border-bottom: 1px solid var(--border-light); }
-#hasilLabTable thead th { background-color: var(--deep-green); color: var(--text-ivory); font-weight: 700; font-size: 0.9em; text-transform: uppercase; letter-spacing: 0.5px; }
+#hasilLabTable th, #hasilLabTable td {
+  padding: 18px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
+}
+#hasilLabTable thead th {
+  background-color: var(--deep-green);
+  color: var(--text-ivory);
+  font-weight: 700;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 #hasilLabTable tbody tr:last-child td { border-bottom: none; }
 #hasilLabTable tbody tr:nth-child(even) { background-color: var(--row-tint); }
 #hasilLabTable tbody tr:hover { background-color: #E0E7FF; }
 #hasilLabTable th:last-child, #hasilLabTable td:last-child { text-align: center; }
-#hasilLabTable td button { padding: 8px 16px; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9em; font-weight: 700; margin: 0 4px; transition: opacity 0.3s; }
-#hasilLabTable td button:hover { opacity: 0.85; }
-button[onclick*="handleEditClick"] { background-color: var(--deep-green); }
-#hasilLabTable button[onclick*="printPasien"] { background-color: var(--gold-accent); color: var(--text-dark); }
+
+#hasilLabTable td button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 700;
+  margin: 0 4px;
+  transition: opacity 0.3s, transform 0.2s;
+}
+#hasilLabTable td button:hover { opacity: 0.85; transform: translateY(-1px); }
+
+/* [PERBAIKAN] Selector diubah agar lebih spesifik dan tidak bentrok */
+#hasilLabTable button[onclick*="handleEdit"] { background-color: var(--deep-green); }
+#hasilLabTable button[onclick*="handlePrint"] { background-color: var(--gold-accent); color: var(--text-dark); }
 
 
 /* ==========================================================================
-   [BARU] Media Query untuk Tampilan Mobile
+   Media Query untuk Tampilan Mobile
    ========================================================================== */
 @media (max-width: 768px) {
-
-  /* [RESPONSIF] Mengurangi ukuran font judul utama agar tidak terlalu besar */
   .header h1 {
     font-size: 2.2em;
   }
   
-  /* [RESPONSIF] Mengatur ulang navbar agar tidak horizontal */
   .navigation-bar {
     flex-direction: column;
     height: auto;
@@ -319,15 +347,14 @@ button[onclick*="handleEditClick"] { background-color: var(--deep-green); }
   }
   
   .navigation-bar ul li {
-    display: block; /* Membuat link menjadi vertikal */
+    display: block;
     margin: 8px 0;
     text-align: center;
   }
   
-  /* [RESPONSIF] Mengatur navbar saat di-scroll di HP */
   .navigation-bar.scrolled {
     padding: 10px 20px;
-    flex-direction: row; /* Kembali horizontal saat di-scroll */
+    flex-direction: row;
   }
 
   .navigation-bar.scrolled .navbar-logo {
@@ -335,21 +362,20 @@ button[onclick*="handleEditClick"] { background-color: var(--deep-green); }
   }
   
   .navigation-bar.scrolled ul li {
-    display: inline-block; /* Kembali inline saat di-scroll */
-    margin: 0 8px; /* Mengurangi spasi antar menu */
+    display: inline-block;
+    margin: 0 8px;
   }
 
   .navigation-bar.scrolled ul li a {
     font-size: 0.9em;
   }
 
-  /* [RESPONSIF] Menyesuaikan padding dan margin kontainer utama */
   .container, .patient-data-container, #hasilLabTable {
     padding-left: 15px;
     padding-right: 15px;
     margin-left: 10px;
     margin-right: 10px;
-    max-width: calc(100% - 20px); /* Memastikan tidak menempel di tepi layar */
+    max-width: calc(100% - 20px);
   }
 
   .container {
@@ -361,17 +387,15 @@ button[onclick*="handleEditClick"] { background-color: var(--deep-green); }
      padding-top: 20px;
      padding-bottom: 10px;
   }
+
   #hasilLabTable {
      padding-bottom: 20px;
   }
 
-
-  /* [RESPONSIF] Mengurangi ukuran font judul halaman */
   .page-title, .section-title {
     font-size: 1.8em;
   }
 
-  /* [RESPONSIF] Menumpuk judul dan search bar secara vertikal */
   .table-header {
     flex-direction: column;
     gap: 20px;
@@ -382,14 +406,89 @@ button[onclick*="handleEditClick"] { background-color: var(--deep-green); }
     max-width: 100%;
   }
   
-  /* [RESPONSIF] Mengurangi padding di dalam tabel */
   #hasilLabTable th, #hasilLabTable td {
     padding: 12px 10px;
   }
   
-  /* [RESPONSIF] Membuat tombol aksi lebih ramah sentuhan */
   #hasilLabTable td button {
     padding: 10px 12px;
-    margin: 2px;
+    margin: 3px;
+    width: calc(50% - 6px); /* Membuat tombol edit & cetak jadi 2 kolom */
   }
+}
+/* ==========================================================================
+   Gaya untuk Header Tabel, Search, & Sorting
+   ========================================================================== */
+
+/* Kontainer untuk judul dan search bar */
+.patient-data-container {
+  background-color: #FFFFFF;
+  padding: 40px 50px 20px 50px;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 10px 30px var(--shadow-color);
+  margin-top: 40px;
+  margin-bottom: 0;
+  border: 1px solid var(--border-light);
+  border-bottom: none;
+}
+
+/* Flex container untuk menyejajarkan judul dan search bar */
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Agar responsif di layar kecil */
+  gap: 20px; /* Jarak antara judul dan search bar */
+  margin-bottom: 20px;
+}
+
+/* Kontainer untuk input pencarian dan tombol */
+.search-container {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-medium);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 1em;
+  font-family: 'Lato', sans-serif;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(192, 161, 94, 0.2);
+  z-index: 2;
+}
+
+#searchButton {
+  padding: 0 20px;
+  border: 1px solid var(--deep-green);
+  background-color: var(--deep-green);
+  color: var(--text-ivory);
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+#searchButton:hover {
+  background-color: var(--darker-green);
+}
+
+/* [BARU] Gaya untuk header kolom tabel yang bisa di-sort */
+#hasilLabTable thead th.sortable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#hasilLabTable thead th.sortable:hover {
+  background-color: var(--darker-green); /* Warna menjadi lebih gelap saat disentuh mouse */
 }
